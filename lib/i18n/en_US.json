@@ -1,0 +1,20 @@
+{
+    "login": "Login",
+    "username": "username",
+    "password": "password",
+    "username_validation": "please_enter_username",
+    "password_validation": "please_enter_password",
+    "studentslist": "Students List",
+    "home": "Home",
+    "logout": "Log out",
+    "studentpanel": "Student Panel",
+    "studentevaluation": "Student Evaluation",
+    "attendens": "Attendens",
+    "coursename": "Course Name",
+    "date": "Date : ",
+    "studentbehavior": "Student Behavior : ",
+    "academicevaluation": "Academic Evaluation : ",
+    "studentname": "Student Name",
+    "attendencesheet": "Attendence Sheet : ",
+    "contact_us": "Contact Us"
+}
