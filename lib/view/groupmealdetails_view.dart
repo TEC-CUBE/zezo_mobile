@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zezo/view/workout_details_view.dart';
+import 'package:CoachZiad/view/workout_details_view.dart';
 import '../model/groupmealdetails_model.dart';
 import '../view_model/groupmeals_view_model.dart';
 import '../view_model/groupworkout_view_model.dart';

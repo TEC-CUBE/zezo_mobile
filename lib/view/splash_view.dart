@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:zezo/utils/routes/routes_name.dart';
-import 'package:zezo/view_model/user_view_model.dart';
+import 'package:CoachZiad/utils/routes/routes_name.dart';
+import 'package:CoachZiad/view_model/user_view_model.dart';
+
+import '../view_model/profile_view_model.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
@@ -21,17 +23,34 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future<void> checkUserLoggedIn() async {
-    // Add a 3-second delay
     await Future.delayed(const Duration(seconds: 3));
     final userViewModel = Provider.of<UserViewModel>(context, listen: false);
     await userViewModel.getUser();
 
-    if (userViewModel.token != null) {
-      // User is logged in, navigate to the bottom navigation bar screen
-      Navigator.pushNamed(context, RoutesName.bottomnavbar);
+    final response = await Profile.fetchData(context);
+    if (response.containsKey('error')) {
+      final errorMessage = response['error'];
+      // Handle the error, e.g., show a message or navigate to the login screen
+      if (errorMessage == 'jwt expired') {
+        // JWT token has expired, navigate to the login screen to reauthenticate
+        Navigator.pushNamed(context, RoutesName.login);
+      } else {
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     content: Text(errorMessage),
+        //   ),
+        // );
+        Navigator.pushNamed(context, RoutesName.login);
+      }
     } else {
-      // User is not logged in, navigate to the login screen
-      Navigator.pushNamed(context, RoutesName.login);
+      // Data is available, process it
+      if (userViewModel.token != null) {
+        // User is logged in, navigate to the bottom navigation bar screen
+        Navigator.pushNamed(context, RoutesName.bottomnavbar);
+      } else {
+        // User is not logged in, navigate to the login screen
+        Navigator.pushNamed(context, RoutesName.login);
+      }
     }
   }
 
@@ -44,14 +63,16 @@ class _SplashViewState extends State<SplashView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 200.h,
+              height: 100.h,
             ),
-            // Image(
-            //   image: AssetImage("assets/images/cuplogo.png"),
-            //   width: 300,
-            // ),
-            SizedBox(
+            Image(
+              image: AssetImage("assets/images/zezo_logo3.png"),
               height: 200.h,
+              width: 200.w,
+              //width: 300,
+            ),
+            SizedBox(
+              height: 50.h,
             ),
             SpinKitThreeBounce(
               color: const Color.fromARGB(255, 6, 159, 182),

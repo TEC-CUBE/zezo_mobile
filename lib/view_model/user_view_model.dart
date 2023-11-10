@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:zezo/model/user_model.dart';
+import 'package:CoachZiad/model/user_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,6 +21,8 @@ class UserViewModel with ChangeNotifier {
 
   String? _token;
 
+  String? _tokenError;
+
   Future<void> saveUserToken(String token) async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     await sp.setString('token', token);
@@ -36,10 +38,22 @@ class UserViewModel with ChangeNotifier {
 
   String? get token => _token;
 
+  String? get tokenError => _tokenError;
+
   Future<void> remove() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     await sp.remove('token');
     _token = null;
+    notifyListeners();
+  }
+
+  void savetokenError(String error) {
+    _tokenError = error;
+    notifyListeners();
+  }
+
+  void handleTokenError() {
+    _tokenError; // Set the error message
     notifyListeners();
   }
 

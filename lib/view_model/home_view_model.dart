@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:zezo/data/response/api_response.dart';
-// import 'package:zezo/model/students_model.dart';
-import 'package:zezo/respository/home_repository.dart';
+import 'package:CoachZiad/data/response/api_response.dart';
+// import 'package:CoachZiad/model/students_model.dart';
+import 'package:CoachZiad/respository/home_repository.dart';
 
 class HomeViewViewModel with ChangeNotifier {
   final _myRepo = HomeRepository();

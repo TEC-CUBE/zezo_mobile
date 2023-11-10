@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:zezo/utils/routes/routes_name.dart';
-import 'package:zezo/view/home_screen.dart';
-import 'package:zezo/view/login_view.dart';
-import 'package:zezo/view/signp_view.dart';
-import 'package:zezo/view/splash_view.dart';
+import 'package:CoachZiad/utils/routes/routes_name.dart';
+import 'package:CoachZiad/view/home_screen.dart';
+import 'package:CoachZiad/view/login_view.dart';
+import 'package:CoachZiad/view/signp_view.dart';
+import 'package:CoachZiad/view/splash_view.dart';
 
 import '../../view/bottom_nav_bar.dart';
-// import 'package:zezo/utils/routes/routes_name.dart';
-// import 'package:zezo/view/home_screen.dart';
-// import 'package:zezo/view/login_view.dart';
-// import 'package:zezo/view/signp_view.dart';
-// import 'package:zezo/view/splash_view.dart';
-// import 'package:zezo/view/student_screen.dart';
+// import 'package:CoachZiad/utils/routes/routes_name.dart';
+// import 'package:CoachZiad/view/home_screen.dart';
+// import 'package:CoachZiad/view/login_view.dart';
+// import 'package:CoachZiad/view/signp_view.dart';
+// import 'package:CoachZiad/view/splash_view.dart';
+// import 'package:CoachZiad/view/student_screen.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {

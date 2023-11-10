@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zezo/model/followup_model.dart';
+import 'package:CoachZiad/model/followup_model.dart';
 
 Future<String?> getUserToken() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();

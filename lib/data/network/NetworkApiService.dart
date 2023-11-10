@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
-// import 'package:zezo/data/app_excaptions.dart';
-// import 'package:zezo/data/network/BaseApiServices.dart';
+// import 'package:CoachZiad/data/app_excaptions.dart';
+// import 'package:CoachZiad/data/network/BaseApiServices.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zezo/data/app_excaptions.dart';
-import 'package:zezo/data/network/BaseApiServices.dart';
+import 'package:CoachZiad/data/app_excaptions.dart';
+import 'package:CoachZiad/data/network/BaseApiServices.dart';
 
 import '../../model/signup_model.dart';
 

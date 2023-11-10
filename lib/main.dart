@@ -1,13 +1,13 @@
+import 'package:CoachZiad/utils/routes/routes.dart';
+import 'package:CoachZiad/utils/routes/routes_name.dart';
+import 'package:CoachZiad/view_model/auth_view_model.dart';
+import 'package:CoachZiad/view_model/user_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
-import 'package:zezo/utils/routes/routes.dart';
-import 'package:zezo/utils/routes/routes_name.dart';
-import 'package:zezo/view/login_view.dart';
-import 'package:zezo/view_model/auth_view_model.dart';
-import 'package:zezo/view_model/user_view_model.dart';
+
 import 'package:provider/provider.dart';
 
 void main() async {

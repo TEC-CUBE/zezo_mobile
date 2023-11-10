@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:zezo/view/workout_details_view.dart';
+import 'package:CoachZiad/view/workout_details_view.dart';
 
 class Workout {
   final int id;

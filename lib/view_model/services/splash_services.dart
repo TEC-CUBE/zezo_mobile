@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:zezo/model/user_model.dart';
-import 'package:zezo/utils/routes/routes_name.dart';
-import 'package:zezo/view_model/user_view_model.dart';
+import 'package:CoachZiad/model/user_model.dart';
+import 'package:CoachZiad/utils/routes/routes_name.dart';
+import 'package:CoachZiad/view_model/user_view_model.dart';
 
 class SplashServices {
   Future<bool> getUserDate() => UserViewModel().getUser();

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localization/localization.dart';
-import 'package:zezo/res/components/curvePainter.dart';
-import 'package:zezo/res/components/round_button.dart';
-import 'package:zezo/utils/routes/routes_name.dart';
-import 'package:zezo/utils/utils.dart';
-import 'package:zezo/view/home_screen.dart';
-import 'package:zezo/view_model/auth_view_model.dart';
+import 'package:CoachZiad/res/components/curvePainter.dart';
+import 'package:CoachZiad/res/components/round_button.dart';
+import 'package:CoachZiad/utils/routes/routes_name.dart';
+import 'package:CoachZiad/utils/utils.dart';
+import 'package:CoachZiad/view/home_screen.dart';
+import 'package:CoachZiad/view_model/auth_view_model.dart';
 import 'package:provider/provider.dart';
 import 'dart:ui' as ui;
 

@@ -6,17 +6,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:localization/localization.dart';
 import 'package:lottie/lottie.dart';
-// import 'package:zezo/data/response/status.dart';
-// import 'package:zezo/model/movies_model.dart';
-// import 'package:zezo/utils/routes/routes_name.dart';
-// import 'package:zezo/utils/utils.dart';
-// import 'package:zezo/view/student_screen.dart';
-// import 'package:zezo/view_model/home_view_model.dart';
-// import 'package:zezo/view_model/user_view_model.dart';
+// import 'package:CoachZiad/data/response/status.dart';
+// import 'package:CoachZiad/model/movies_model.dart';
+// import 'package:CoachZiad/utils/routes/routes_name.dart';
+// import 'package:CoachZiad/utils/utils.dart';
+// import 'package:CoachZiad/view/student_screen.dart';
+// import 'package:CoachZiad/view_model/home_view_model.dart';
+// import 'package:CoachZiad/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:zezo/view/postfollowup_view.dart';
-import 'package:zezo/view/profile_view.dart';
+import 'package:CoachZiad/view/postfollowup_view.dart';
+import 'package:CoachZiad/view/profile_view.dart';
 import '../utils/routes/routes_name.dart';
 import '../view_model/home_view_model.dart';
 import '../view_model/profile_view_model.dart';
@@ -57,22 +57,20 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  // getConnectivity() =>
-  //     subscription = Connectivity().onConnectivityChanged.listen(
-  //       (ConnectivityResult result) async {
-  //         isDeviceConnected = await InternetConnectionChecker().hasConnection;
-  //         if (!isDeviceConnected && isAlertSet == false) {
-  //           showDialogBox();
-  //           setState(() => isAlertSet = true);
-  //         }
-  //       },
-  //     );
-
   Future<void> fetchData() async {
     final response = await Profile.fetchData(context);
-    setState(() {
-      followeupuserData = response;
-    });
+   
+    print('Response from fetchData(): $response');
+    if (response is Map<String, dynamic>) {
+      setState(() {
+        followeupuserData = response;
+        
+      });
+    } else {
+      // Handle the case where the response is not a Map
+      // You can show an error message or perform other actions as needed.
+      print('Invalid response format in fetchData()');
+    }
   }
 
   Future<void> fetchtraineeData() async {
@@ -82,9 +80,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      setState(() {
-        traineeData = data['data'];
-      });
+      if (data is Map<String, dynamic> && data.containsKey('data')) {
+        setState(() {
+          traineeData = data['data'];
+        });
+      } else {
+        // Handle the case where the response doesn't have the expected structure
+        // You can show an error message or perform other actions as needed.
+        print('Invalid response format in fetchtraineeData()');
+      }
     } else {
       throw Exception('Failed to load data');
     }

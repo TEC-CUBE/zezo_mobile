@@ -1,6 +1,6 @@
-//import 'package:zezo/data/response/status.dart';
+//import 'package:CoachZiad/data/response/status.dart';
 
-import 'package:zezo/data/response/status.dart';
+import 'package:CoachZiad/data/response/status.dart';
 
 class ApiResponse<T> {
   Status? status;
