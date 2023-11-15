@@ -174,14 +174,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // Expanded(
-                          //     child: Lottie.asset(
-                          //         "assets/images/NoIternet.json",
-                          //         width: 180,
-                          //         fit: BoxFit.fitWidth)),
-                          // const SizedBox(
-                          //   height: 150,
-                          // ),
+                          
                           Text(
                             "لا يوجد اتصال بالانترنت",
                             style: TextStyle(

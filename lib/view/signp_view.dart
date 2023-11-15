@@ -1892,10 +1892,11 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpViewState extends State<SignUpView> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController countryController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
-  var phone = '';
+  // var phone = '';
 
   void dispose() {
     // Dispose of the TextEditingController to prevent memory leaks.
@@ -1912,25 +1913,12 @@ class _SignUpViewState extends State<SignUpView> {
 
   @override
   Widget build(BuildContext context) {
-    print('fffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-    print(widget.name.text.toString() +
-        widget.selectDate.toString() +
-        widget.selectedGender.toString() +
-        widget.selectedphysicallyActive.toString() +
-        widget.selectedGoal.toString() +
-        widget.selectedBodyType.toString() +
-        widget.selectedBodyGoal.toString() +
-        widget.selectedMotivation.toString() +
-        widget.selectedWeight.toString() +
-        widget.selectedLength.toString() +
-        // widget.selectedtargetWeight.toString() +
-        widget.selectedTargetZone.toString());
-    final authViewMode = Provider.of<AuthViewModel>(context);
+    final authViewModel = Provider.of<AuthViewModel>(context);
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-        //title: Text('SingUp'),
         centerTitle: true,
       ),
       body: Padding(
@@ -1938,226 +1926,206 @@ class _SignUpViewState extends State<SignUpView> {
         child: Container(
           height: 500.h,
           width: double.infinity,
-          // margin: const EdgeInsets.only(left: 25, right: 25),
-          // alignment: Alignment.center,
           child: SingleChildScrollView(
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // const SizedBox(
-                //   height: 25,
-                // ),
-                Padding(
-                  padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "قم بادخال بيانات التسجيل الخاصة بك",
-                        style: TextStyle(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "قم بادخال بيانات التسجيل الخاصة بك",
+                          style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-
-                Container(
-                  height: 50.h,
-                  width: 280.w,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      //border: Border.all(width: 1, color: Colors.white),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Directionality(
-                    textDirection: ui.TextDirection.rtl,
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // SizedBox(
-                        //   width: 40,
-                        //   child: TextField(
-                        //     controller: _passwordController,
-                        //     style: const TextStyle(color: Colors.black),
-                        //     decoration: const InputDecoration(
-                        //       border: InputBorder.none,
-                        //     ),
-                        //   ),
-                        // ),
-                        Expanded(
-                            child: Padding(
-                          padding: EdgeInsets.only(left: 15.0.w, right: 15.0.w),
-                          child: TextField(
-                            controller: usernameController,
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "اسم المستخدم",
-                            ),
+                            color: Colors.white,
                           ),
-                        ))
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.h),
-                Container(
-                  height: 50.h,
-                  width: 280.w,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      //border: Border.all(width: 1, color: Colors.white),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Directionality(
-                    textDirection: ui.TextDirection.rtl,
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // SizedBox(
-                        //   width: 40,
-                        //   child: TextField(
-                        //     controller: _passwordController,
-                        //     style: const TextStyle(color: Colors.black),
-                        //     decoration: const InputDecoration(
-                        //       border: InputBorder.none,
-                        //     ),
-                        //   ),
-                        // ),
-                        Expanded(
-                            child: Padding(
-                          padding: EdgeInsets.only(left: 15.0.w, right: 15.0.w),
-                          child: TextField(
-                            controller: _passwordController,
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "كلمة المرور",
-                            ),
-                          ),
-                        ))
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.h),
-                // const Text(
-                //   "تسجيل باستخدام الهاتف",
-                //   style: TextStyle(
-                //       fontSize: 22,
-                //       fontWeight: FontWeight.bold,
-                //       color: Colors.white),
-                // ),
-                // SizedBox(
-                //   height: 5.h,
-                // ),
-                Padding(
-                  padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "نحن بحاجة إلى تسجيل رقم هاتفك قبل البدء !",
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                Container(
-                  height: 50.h,
-                  width: 280.w,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      //border: Border.all(width: 1, color: Colors.white),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Directionality(
-                    textDirection: ui.TextDirection.ltr,
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // SizedBox(
-                        //   width: 40,
-                        //   child: TextField(
-                        //     controller: _passwordController,
-                        //     style: const TextStyle(color: Colors.black),
-                        //     decoration: const InputDecoration(
-                        //       border: InputBorder.none,
-                        //     ),
-                        //   ),
-                        // ),
-                        Expanded(
-                            child: Padding(
-                          padding: EdgeInsets.only(left: 15.0.w, right: 15.0.w),
-                          child: TextField(
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(
-                                  9), // Limit input to 9 characters
-                            ],
-                            controller: countryController,
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              // hintText: "+218",
-                              prefixText: "+218",
-                              // prefixStyle: TextStyle(
-                              //     color: Colors.black,
-                              //     fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ))
                       ],
                     ),
                   ),
-                ),
-
-                SizedBox(
-                  height: 130.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 15.0.h),
-                  child: SizedBox(
-                    height: 44.h,
-                    width: 250.w,
-                    child: ElevatedButton(
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Container(
+                    height: 50.h,
+                    width: 280.w,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Directionality(
+                      textDirection: ui.TextDirection.rtl,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  EdgeInsets.only(left: 15.0.w, right: 15.0.w),
+                              child: TextFormField(
+                                controller: usernameController,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "اسم المستخدم",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        backgroundColor: Colors.red,
+                                        content:
+                                            Text('الرجاء ادخال اسم المستخدم'),
+                                        // You can customize the SnackBar appearance and duration here
+                                      ),
+                                    );
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  Container(
+                    height: 50.h,
+                    width: 280.w,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Directionality(
+                      textDirection: ui.TextDirection.rtl,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  EdgeInsets.only(left: 15.0.w, right: 15.0.w),
+                              child: TextFormField(
+                                controller: _passwordController,
+                                obscureText: true,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "كلمة المرور",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        backgroundColor: Colors.red,
+                                        content:
+                                            Text('الرجاء ادخال كلمة المرور'),
+                                        // You can customize the SnackBar appearance and duration here
+                                      ),
+                                    );
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "نحن بحاجة إلى تسجيل رقم هاتفك قبل البدء !",
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  Container(
+                    height: 50.h,
+                    width: 280.w,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Directionality(
+                      textDirection: ui.TextDirection.ltr,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  EdgeInsets.only(left: 15.0.w, right: 15.0.w),
+                              child: TextFormField(
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(9),
+                                ],
+                                controller: countryController,
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  prefixText: "+218",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        backgroundColor: Colors.red,
+                                        content:
+                                            Text('الرجاء ادخال رقم الهاتف'),
+                                        // You can customize the SnackBar appearance and duration here
+                                      ),
+                                    );
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 130.h,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 15.0.h),
+                    child: SizedBox(
+                      height: 44.h,
+                      width: 250.w,
+                      child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: const Color.fromARGB(255, 6, 159, 182),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
+                          primary: const Color.fromARGB(255, 6, 159, 182),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
                         onPressed: () async {
-                          // await FirebaseAuth.instance.verifyPhoneNumber(
-                          //   phoneNumber: '${countryController.text + phone}',
-                          //   verificationCompleted:
-                          //       (PhoneAuthCredential credential) {},
-                          //   verificationFailed: (FirebaseAuthException e) {},
-                          //   codeSent: (String verificationId, int? resendToken) {
-                          //     SignUpView.verify = verificationId;
-                          //     Navigator.pushNamed(context, RoutesName.verifyphone);
-                          //   },
-                          //   codeAutoRetrievalTimeout: (String verificationId) {},
-                          // );
-                          if (usernameController.text.isEmpty) {
-                            // Utils.flushBarErrorMessage(
-                            //     'الرجاء ادخال اسم االمستخدم', context);
-                          } else if (_passwordController.text.isEmpty) {
-                            // Utils.flushBarErrorMessage(
-                            //     'الرجاء ادخال الرمز السري', context);
-                          } else if (countryController.text.isEmpty) {
-                            // Utils.flushBarErrorMessage(
-                            //     'الرجاء ادخال رقم الهاتف', context);
-                          } else {
-                            // Navigator.pushNamed(context, RoutesName.verifyphone);
-                            // Navigator.pushNamed(context, RoutesName.physicalactivity);
-
+                          if (_formKey.currentState?.validate() ?? false) {
                             final signUpData = {
                               "aim": widget.selectedBodyGoal ?? '',
                               "birthday": widget.selectDate ?? '',
@@ -2174,22 +2142,24 @@ class _SignUpViewState extends State<SignUpView> {
                               "phone": countryController.text,
                               "username": usernameController.text ?? '',
                               "password": _passwordController.text ?? '',
-                              // selectedGoal: widget.selectedphysicallyActive!,
                               "goal": widget.selectedGoal ?? '',
                             };
 
-                            // String jsonBody = signUpData.toJsonString();
-                            //print(signUpData.toJson());
-                            authViewMode.signUpApi(context, signUpData);
+                            authViewModel.signUpApi(context, signUpData);
                           }
-                          //Navigator.pushNamed(context, RoutesName.verifyphone);
                         },
-                        child: Text("تسجيل",
-                            style: TextStyle(
-                                fontSize: 18.sp, fontWeight: FontWeight.bold))),
-                  ),
-                )
-              ],
+                        child: Text(
+                          "تسجيل",
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

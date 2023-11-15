@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 import '../utils/routes/routes_name.dart';
 import '../view_model/user_view_model.dart';
 import '../view_model/profile_view_model.dart';
+import 'login_view.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -31,6 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final userPrefernece = Provider.of<UserViewModel>(context);
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -119,8 +122,14 @@ class _ProfilePageState extends State<ProfilePage> {
               trailing: const Icon(Icons.arrow_forward_ios,
                   size: 16, color: Color.fromARGB(255, 6, 159, 182)),
               onTap: () {
-                userPrefernece.remove().then((value) {
-                  Navigator.pushNamed(context, RoutesName.login);
+                userPrefernece.remove().then((value) async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.clear();
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginView()),
+                      (Route<dynamic> route) => false);
                 });
               },
             ),
@@ -163,6 +172,11 @@ class _AboutPageState extends State<AboutPage> {
                 ),
               ),
             ),
+            SizedBox(height: 10.h),
+            Text('NetCube',
+                style: TextStyle(
+                    fontSize: 30.sp,
+                    color: const Color.fromARGB(255, 255, 250, 250))),
           ])),
     );
   }
