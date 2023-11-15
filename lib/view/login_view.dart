@@ -160,11 +160,11 @@ class _LoginViewState extends State<LoginView> {
                   loading: authViewMode.loading,
                   onPress: () {
                     if (_emailController.text.isEmpty) {
-                      Utils.flushBarErrorMessage(
-                          'الرجاء ادخال رقم الهاتف', context);
+                      // Utils.flushBarErrorMessage(
+                      //     'الرجاء ادخال رقم الهاتف', context);
                     } else if (_passwordController.text.isEmpty) {
-                      Utils.flushBarErrorMessage(
-                          'الرجاء ادخال الرمز السري', context);
+                      // Utils.flushBarErrorMessage(
+                      //     'الرجاء ادخال الرمز السري', context);
                     } /*else if(_passwordController.text.length < 6){
                     Utils.flushBarErrorMessage('Please enter 6 digit password', context);
 

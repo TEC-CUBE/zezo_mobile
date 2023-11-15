@@ -2146,14 +2146,14 @@ class _SignUpViewState extends State<SignUpView> {
                           //   codeAutoRetrievalTimeout: (String verificationId) {},
                           // );
                           if (usernameController.text.isEmpty) {
-                            Utils.flushBarErrorMessage(
-                                'الرجاء ادخال اسم االمستخدم', context);
+                            // Utils.flushBarErrorMessage(
+                            //     'الرجاء ادخال اسم االمستخدم', context);
                           } else if (_passwordController.text.isEmpty) {
-                            Utils.flushBarErrorMessage(
-                                'الرجاء ادخال الرمز السري', context);
+                            // Utils.flushBarErrorMessage(
+                            //     'الرجاء ادخال الرمز السري', context);
                           } else if (countryController.text.isEmpty) {
-                            Utils.flushBarErrorMessage(
-                                'الرجاء ادخال رقم الهاتف', context);
+                            // Utils.flushBarErrorMessage(
+                            //     'الرجاء ادخال رقم الهاتف', context);
                           } else {
                             // Navigator.pushNamed(context, RoutesName.verifyphone);
                             // Navigator.pushNamed(context, RoutesName.physicalactivity);

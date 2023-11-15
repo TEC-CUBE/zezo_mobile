@@ -278,14 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             SizedBox(height: 10.h),
-            IconButton(
-              onPressed: () {
-                userPrefernece.remove().then((value) {
-                  Navigator.pushNamed(context, RoutesName.login);
-                });
-              },
-              icon: Icon(Icons.logout),
-            ),
+          
 
             Padding(
               padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
