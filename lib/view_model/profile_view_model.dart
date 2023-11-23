@@ -16,7 +16,6 @@ class Profile {
       'Authorization': 'Bearer $token',
     },
   );
-  print(response.body);
 
   if (response.statusCode == 200) {
     final data = json.decode(response.body);

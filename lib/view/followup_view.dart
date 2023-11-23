@@ -36,7 +36,7 @@ class _FollowupViewState extends State<FollowupView> {
             "Authorization": "Bearer $token",
           },
         );
-        print(response.body);
+      
         if (response.statusCode == 200) {
           final responseData = json.decode(response.body);
           final followupData = responseData['data'];
@@ -55,7 +55,6 @@ class _FollowupViewState extends State<FollowupView> {
 
   @override
   Widget build(BuildContext context) {
-    print("Followups: $followups");
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),

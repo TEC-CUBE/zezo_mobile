@@ -63,8 +63,6 @@ class _FollowupMealWorkoutViewState extends State<FollowupMealWorkoutView>
 
   @override
   Widget build(BuildContext context) {
-    print('llllllllllllllllllllllllllllllll');
-    print(widget.followup);
     return DefaultTabController(
       length: 2,
       child: Scaffold(

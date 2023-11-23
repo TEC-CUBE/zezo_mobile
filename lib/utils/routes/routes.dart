@@ -61,9 +61,7 @@ class Routes {
       // case RoutesName.targetzone:
       //   return MaterialPageRoute(
       //       builder: (BuildContext context) => const targetzonescreen());
-      case RoutesName.verifyphone:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const Verifyphone());
+
       case RoutesName.bottomnavbar:
         return MaterialPageRoute(
             builder: (BuildContext context) => BottomNavBar());

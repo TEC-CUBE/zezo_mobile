@@ -15,7 +15,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   Map<String, dynamic> userData = {};
-  final Uri _urlWhatsapp = Uri.parse("https://wa.me/218917863522");
+  final Uri _urlWhatsapp = Uri.parse("https://wa.me/218924044401");
 
   @override
   void initState() {

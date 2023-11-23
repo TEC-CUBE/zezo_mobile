@@ -1,31 +1,27 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Utils {
-
-
-  static double averageRating(List<int> rating){
+  static double averageRating(List<int> rating) {
     var avgRating = 0;
-    for(int i = 0 ; i< rating.length ; i++){
+    for (int i = 0; i < rating.length; i++) {
       avgRating = avgRating + rating[i];
     }
-    return double.parse((avgRating/rating.length).toStringAsFixed(1)) ;
+    return double.parse((avgRating / rating.length).toStringAsFixed(1));
   }
 
-  static void fieldFocusChange(BuildContext context , FocusNode current , FocusNode nextFocus){
+  static void fieldFocusChange(
+      BuildContext context, FocusNode current, FocusNode nextFocus) {
     current.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
   }
 
-
-
-  static toastMessage(String message){
+  static toastMessage(String message) {
     Fluttertoast.showToast(
-        msg: message,
-    backgroundColor: Colors.black,
+      msg: message,
+      backgroundColor: Colors.black,
       textColor: Colors.white,
-
     );
   }
 
@@ -50,12 +46,43 @@ class Utils {
 
   // }
 
-  static snackBar(String message, BuildContext context){
+  static snackBar(String message, BuildContext context) {
     return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.red,
-        content: Text(message ))
-    );
+        SnackBar(backgroundColor: Colors.red, content: Text(message)));
   }
 
+  static showCenteredSnackBar(
+      BuildContext context, String message, Color color) {
+    final OverlayEntry overlayEntry = OverlayEntry(
+      builder: (BuildContext context) => Positioned(
+        top: MediaQuery.of(context).size.height * 0.5,
+        left: MediaQuery.of(context).size.width * 0.25,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            height: 40.h,
+            width: MediaQuery.of(context).size.width * 0.5,
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: Text(
+                message,
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    Overlay.of(context)!.insert(overlayEntry);
+
+    Future.delayed(Duration(seconds: 2), () {
+      overlayEntry.remove();
+    });
+  }
 }
