@@ -61,7 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> fetchData() async {
     final response = await Profile.fetchData(context);
 
-    print('Response from fetchData(): $response');
     if (response is Map<String, dynamic>) {
       setState(() {
         followeupuserData = response;
@@ -215,7 +214,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   DateTime? createdAt = DateTime.tryParse(created_at);
                   if (createdAt != null) {
                     DateTime now = DateTime.now();
-                    
 
                     // Check if the difference between now and createdAt is less than a certain duration
                     if (now.difference(createdAt) < Duration(hours: 24)) {
