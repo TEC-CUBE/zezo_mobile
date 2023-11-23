@@ -43,15 +43,15 @@ class AuthViewModel with ChangeNotifier {
     final jsonBody = jsonEncode(data);
 
     try {
-      showDialog(
-        context: context,
-        barrierDismissible: false, // Prevent user from closing the dialog
-        builder: (BuildContext context) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      );
+      // showDialog(
+      //   context: context,
+      //   barrierDismissible: false, // Prevent user from closing the dialog
+      //   builder: (BuildContext context) {
+      //     return Center(
+      //       child: CircularProgressIndicator(),
+      //     );
+      //   },
+      // );
       final response = await http.post(
         url,
         headers: headers,
