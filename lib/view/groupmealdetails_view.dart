@@ -34,10 +34,7 @@ class _GroupMealDetailsState extends State<GroupMealDetails> {
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        print(
-            ' iiiiiiiiiiiiiiiiiifffffffffffffffffnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn');
-        print(widget.followupId);
-        print(widget.day);
+       
         final responseData = json.decode(response.body);
 
         if (responseData.containsKey('data')) {
@@ -47,7 +44,6 @@ class _GroupMealDetailsState extends State<GroupMealDetails> {
                 .map((data) => MealDetail.fromJson(data))
                 .toList();
           });
-          print(mealDetails);
         } else {
           throw Exception("Data field not found in the response");
         }
@@ -296,7 +292,6 @@ class _GroupMealDetailsState extends State<GroupMealDetails> {
                           scrollDirection: Axis.horizontal,
                           itemCount: imageUrls.length,
                           itemBuilder: (context, index) {
-                            print(imageUrls);
                             final imageUrl = imageUrls[index];
                             return Container(
                                 child: imageUrl.isNotEmpty

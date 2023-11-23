@@ -59,6 +59,7 @@ dependencies:
   carousel_indicator: ^1.0.6
   smooth_page_indicator: ^1.1.0
   image_picker: ^1.0.4
+  onesignal_flutter: ^5.0.4
   
   
   
@@ -72,9 +73,9 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/zezo_logo3.png"
+  image_path: "assets/images/zezo_logo3.jpg"
   adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "assets/images/logo_foreground.png"
+  adaptive_icon_foreground: "assets/images/zezo_logo3.jpg"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

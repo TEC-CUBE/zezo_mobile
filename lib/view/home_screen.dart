@@ -18,6 +18,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:CoachZiad/view/postfollowup_view.dart';
 import 'package:CoachZiad/view/profile_view.dart';
 import '../utils/routes/routes_name.dart';
+import '../utils/utils.dart';
 import '../view_model/home_view_model.dart';
 import '../view_model/profile_view_model.dart';
 import '../view_model/user_view_model.dart';
@@ -59,12 +60,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> fetchData() async {
     final response = await Profile.fetchData(context);
-   
+
     print('Response from fetchData(): $response');
     if (response is Map<String, dynamic>) {
       setState(() {
         followeupuserData = response;
-        
       });
     } else {
       // Handle the case where the response is not a Map
@@ -96,7 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(followeupuserData['name']);
     final userPrefernece = Provider.of<UserViewModel>(context);
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
@@ -207,78 +206,80 @@ class _HomeScreenState extends State<HomeScreen> {
 
             SizedBox(height: 10.h),
 
-            Container(
-              height: 50.h,
-              width: 320.w,
-              decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  border: Border.all(
-                      width: 1, color: const Color.fromARGB(255, 6, 159, 182)),
-                  borderRadius: BorderRadius.circular(10)),
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(12.0.w, 8.0.h, 12.0.w, 8.0.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "ارسال بيانات المتابعة الي المدرب",
-                      style: TextStyle(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        final String? created_at =
-                            followeupuserData['followup_date'] as String?;
-                        if (created_at != null) {
-                          DateTime? createdAt = DateTime.tryParse(created_at);
-                          if (createdAt != null) {
-                            DateTime now = DateTime.now();
+            InkWell(
+              onTap: () {
+                final String? created_at =
+                    followeupuserData['followup_date'] as String?;
+                //"2023-11-19T00:00:00.000Z";
+                if (created_at != null) {
+                  DateTime? createdAt = DateTime.tryParse(created_at);
+                  if (createdAt != null) {
+                    DateTime now = DateTime.now();
+                    
 
-                            // Check if the difference between now and createdAt is less than a certain duration
-                            if (now.difference(createdAt) <
-                                Duration(hours: 24)) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => PostFollowup(),
-                                ),
-                              );
-                            } else {
-                              // Disable the onPressed action
-                              // This will effectively make the button unresponsive
-                              // You can also show a message to indicate why it's disabled
-                              // For example, display a snackbar with a message.
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor:
-                                      Color.fromARGB(255, 30, 30, 43),
-                                  content: Text("لم يحن وقت المتابعة بعد !"),
-                                ),
-                              );
-                            }
-                          } else {
-                            // Handle the case where 'created_at' is not a valid DateTime string
-                            // You can show a message or perform other actions as needed.
-                            print("Invalid 'created_at' format");
-                          }
-                        } else {
-                          // Handle the case where 'created_at' is null
-                          // You can show a message or perform other actions as needed.
-                          print("'created_at' is null");
-                        }
-                      },
-                      icon: Icon(Icons.add,
+                    // Check if the difference between now and createdAt is less than a certain duration
+                    if (now.difference(createdAt) < Duration(hours: 24)) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => PostFollowup(),
+                        ),
+                      );
+                    } else {
+                      // Disable the onPressed action
+                      // This will effectively make the button unresponsive
+                      // You can also show a message to indicate why it's disabled
+                      // For example, display a snackbar with a message.
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //   SnackBar(
+                      //     backgroundColor: Color.fromARGB(255, 30, 30, 43),
+                      //     content: Text("لم يحن وقت المتابعة بعد !"),
+                      //   ),
+                      // );
+                      Utils.showCenteredSnackBar(
+                          context, "لم يحن وقت المتابعة بعد !", Colors.red);
+                    }
+                  } else {
+                    // Handle the case where 'created_at' is not a valid DateTime string
+                    // You can show a message or perform other actions as needed.
+                    print("Invalid 'created_at' format");
+                  }
+                } else {
+                  // Handle the case where 'created_at' is null
+                  // You can show a message or perform other actions as needed.
+                  print("'created_at' is null");
+                }
+              },
+              child: Container(
+                height: 50.h,
+                width: 320.w,
+                decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border.all(
+                        width: 1,
+                        color: const Color.fromARGB(255, 6, 159, 182)),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(12.0.w, 8.0.h, 12.0.w, 8.0.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ارسال بيانات المتابعة الي المدرب",
+                        style: TextStyle(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white),
+                      ),
+                      Icon(Icons.add,
                           color: const Color.fromARGB(255, 6, 159, 182),
                           size: 20.sp),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
 
             SizedBox(height: 10.h),
-          
 
             Padding(
               padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),

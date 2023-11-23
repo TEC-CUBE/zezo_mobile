@@ -12,6 +12,7 @@ import 'package:CoachZiad/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import '../model/signup_model.dart';
+import '../view/bottom_nav_bar.dart';
 
 class AuthViewModel with ChangeNotifier {
   final _myRepo = AuthRepository();
@@ -40,36 +41,56 @@ class AuthViewModel with ChangeNotifier {
     };
 
     final jsonBody = jsonEncode(data);
-    // print('a7a');
-    // print(jsonBody);
 
     try {
+      showDialog(
+        context: context,
+        barrierDismissible: false, // Prevent user from closing the dialog
+        builder: (BuildContext context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
       final response = await http.post(
         url,
         headers: headers,
         body: jsonBody,
       );
-      print(response.body);
 
       if (response.statusCode == 200) {
         // Successful response
-        print('POST request successful');
-        print(response.body);
+
         final responseData = jsonDecode(response.body);
-        final token = responseData['token']; // Correctly access the token
+        final token = responseData['token'];
         final userPreference =
             Provider.of<UserViewModel>(context, listen: false);
         userPreference.saveUserToken(token);
-
-        Navigator.pushNamed(context as BuildContext, RoutesName.bottomnavbar);
+        // Navigator.pushNamed(context, RoutesName.bottomnavbar);
+        // Introduce a 2-second delay before navigating to BottomNavBar
+        //await Future.delayed(Duration(seconds: 2));
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => BottomNavBar()),
+            (Route<dynamic> route) => false);
+      } else if (response.statusCode == 401) {
+        // Unauthorized - Invalid credentials
+        _showErrorDialog(context, 'خطأ في بيانات الدخول');
+      } else if (response.statusCode == 404) {
+        // Not Found - User not found
+        _showErrorDialog(context, 'خطأ في بيانات الدخول');
+      } else if (response.statusCode == 400) {
+        _showErrorDialog(context, 'خطأ في بيانات الدخول');
+      } else if (response.statusCode == 500) {
+        _showErrorDialog(context, 'خطأ في الشبكة ');
       } else {
-        // Handle the error response
-        print('POST request failed with status ${response.statusCode}');
-        print(response.body);
+        // Handle other error scenarios
+        _showErrorDialog(context, 'حدث خطأ ما الرجاء المحاولة مرة اخرى');
       }
     } catch (e) {
       // Handle any exceptions
       print('Error making POST request: $e');
+      _showErrorDialog(context, 'حدث خطأ ما الرجاء المحاولة مرة اخرى');
     }
   }
 
@@ -143,47 +164,58 @@ class AuthViewModel with ChangeNotifier {
             );
           },
         );
+      } else if (response.statusCode == 500) {
+        _showErrorDialog(context, 'خطأ في الشبكة ');
+      } else if (response.statusCode == 422) {
+        _showErrorDialog(context, 'المستخدم موجود مسبقا');
       } else {
-        // Handle the error response
-        if (response.statusCode == 422) {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                backgroundColor: const Color.fromARGB(255, 30, 30, 43),
-                title: const Icon(Icons.warning, color: Colors.red, size: 48.0),
-                content: const Text(
-                  "البريد الالكتروني مستخدم من قبل",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white),
-                ),
-                actions: <Widget>[
-                  Center(
-                    child: Container(
-                      width: 80,
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                            primary: Colors.white,
-                            backgroundColor:
-                                const Color.fromARGB(255, 6, 159, 182)),
-                        child: const Text('تم'),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // Close the dialog
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
-        }
-        print('POST request failed with status ${response.statusCode}');
-        print(response.body);
+        // Handle other error scenarios
+        _showErrorDialog(context, 'حدث خطأ ما الرجاء المحاولة مرة اخرى');
       }
     } catch (e) {
       // Handle any exceptions
       print('Error making POST request: $e');
+      _showErrorDialog(context, 'حدث خطأ ما الرجاء المحاولة مرة اخرى');
     }
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color.fromARGB(255, 15, 15, 24),
+          //title: Text('Error'),
+          content: Text(
+            message,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          ),
+          actions: <Widget>[
+            Center(
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.white,
+                  backgroundColor: const Color.fromARGB(255, 252, 79, 79),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                      // fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

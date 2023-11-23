@@ -104,22 +104,22 @@ class _LoginViewState extends State<LoginView> {
                                   border: InputBorder.none,
                                   hintText: "رقم الهاتف",
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        backgroundColor: Colors.red,
-                                        content:
-                                            Text('الرجاء ادخال رقم الهاتف'),
-                                        // You can customize the SnackBar appearance and duration here
-                                      ),
-                                    );
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value == null || value.isEmpty) {
+                                //     ScaffoldMessenger.of(context).showSnackBar(
+                                //       SnackBar(
+                                //         shape: RoundedRectangleBorder(
+                                //             borderRadius:
+                                //                 BorderRadius.circular(10)),
+                                //         backgroundColor: Colors.red,
+                                //         content:
+                                //             Text('الرجاء ادخال رقم الهاتف'),
+                                //         // You can customize the SnackBar appearance and duration here
+                                //       ),
+                                //     );
+                                //   }
+                                //   return null;
+                                // },
                               ),
                             ),
                           )
@@ -149,22 +149,22 @@ class _LoginViewState extends State<LoginView> {
                                   border: InputBorder.none,
                                   hintText: "كلمة المرور",
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        backgroundColor: Colors.red,
-                                        content:
-                                            Text('الرجاء ادخال كلمة المرور'),
-                                        // You can customize the SnackBar appearance and duration here
-                                      ),
-                                    );
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value == null || value.isEmpty) {
+                                //     ScaffoldMessenger.of(context).showSnackBar(
+                                //       SnackBar(
+                                //         shape: RoundedRectangleBorder(
+                                //             borderRadius:
+                                //                 BorderRadius.circular(10)),
+                                //         backgroundColor: Colors.red,
+                                //         content:
+                                //             Text('الرجاء ادخال كلمة المرور'),
+                                //         // You can customize the SnackBar appearance and duration here
+                                //       ),
+                                //     );
+                                //   }
+                                //   return null;
+                                // },
                               ),
                             ),
                           )
@@ -177,14 +177,27 @@ class _LoginViewState extends State<LoginView> {
                     title: 'Login',
                     loading: authViewModel.loading,
                     onPress: () {
-                      if (_formKey.currentState?.validate() ?? false) {
+                      if (_formKey.currentState!.validate() &&
+                          _emailController.text.isNotEmpty &&
+                          _passwordController.text.isNotEmpty) {
                         final requestData = {
                           'phone': _emailController.text.toString(),
                           'password': _passwordController.text.toString(),
                         };
 
                         authViewModel.loginApi(context, requestData);
-                        print('api hit');
+                        //print('api hit');
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            backgroundColor: Colors.red,
+                            content:
+                                Text('الرجاء ادخال رقم الهاتف وكلمة المرور'),
+                          ),
+                        );
                       }
                     },
                   ),

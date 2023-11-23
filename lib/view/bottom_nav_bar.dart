@@ -76,85 +76,92 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: _token != null ? _pages[_currentIndex] : _pages[_currentIndex],
-      // Center(child: CircularProgressIndicator()),
+    return WillPopScope(
+      onWillPop: () async {
+        // Handle the back button press
+        // Return true to allow back navigation, or false to prevent it
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: _token != null ? _pages[_currentIndex] : _pages[_currentIndex],
+        // Center(child: CircularProgressIndicator()),
 
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-        type: BottomNavigationBarType.fixed,
-        // elevation: 9,
-        unselectedItemColor: Colors.white,
-        iconSize: 20.sp,
-        selectedFontSize: 12.sp,
-        unselectedFontSize: 12.sp,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'الرئيسية',
-          ),
-          // BottomNavigationBarItem(
-          //   icon: FaIcon(FontAwesomeIcons.dumbbell),
-          //   label: 'التمارين',
-          // ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.utensils),
-            label: 'الوجبات',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.clipboard),
-            label: 'المتابعة',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.user),
-            label: 'الحساب',
-          ),
-        ],
-        currentIndex: _currentIndex,
-        selectedItemColor: Color.fromARGB(255, 6, 159, 182),
-        onTap: _onTabTapped,
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: const Color.fromARGB(255, 15, 15, 24),
+          type: BottomNavigationBarType.fixed,
+          // elevation: 9,
+          unselectedItemColor: Colors.white,
+          iconSize: 20.sp,
+          selectedFontSize: 12.sp,
+          unselectedFontSize: 12.sp,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'الرئيسية',
+            ),
+            // BottomNavigationBarItem(
+            //   icon: FaIcon(FontAwesomeIcons.dumbbell),
+            //   label: 'التمارين',
+            // ),
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.utensils),
+              label: 'الوجبات',
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.clipboard),
+              label: 'المتابعة',
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.user),
+              label: 'الحساب',
+            ),
+          ],
+          currentIndex: _currentIndex,
+          selectedItemColor: Color.fromARGB(255, 6, 159, 182),
+          onTap: _onTabTapped,
+        ),
+        // bottomNavigationBar: Container(
+        //   color: const Color.fromARGB(255, 57, 56, 56),
+        //   child: Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+        //     child: GNav(
+        //       selectedIndex: _currentIndex,
+        //       onTabChange: _onTabTapped,
+        //       // gap: 2,
+        //       activeColor: Color.fromARGB(255, 0, 106, 255),
+        //       backgroundColor: const Color.fromARGB(255, 57, 56, 56),
+        //       color: Colors.white,
+        //       tabBackgroundColor: Colors.grey.shade800,
+        //       iconSize: 16.w,
+        //       textSize: 8,
+        //       padding: EdgeInsets.fromLTRB(15.w, 10.h, 15.w, 10.h),
+        //       tabs: [
+        //         GButton(
+        //           icon: Icons.home,
+        //           text: 'الصفحة الرئيسية',
+        //         ),
+        //         GButton(
+        //           icon: FontAwesomeIcons.dumbbell,
+        //           text: 'التمارين',
+        //         ),
+        //         GButton(
+        //           icon: Icons.home,
+        //           text: 'التغذية',
+        //         ),
+        //         GButton(
+        //           icon: Icons.home,
+        //           text: 'المتابعة',
+        //         ),
+        //         GButton(
+        //           icon: Icons.home,
+        //           text: 'الصفحة الشخصية',
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // )
       ),
-      // bottomNavigationBar: Container(
-      //   color: const Color.fromARGB(255, 57, 56, 56),
-      //   child: Padding(
-      //     padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
-      //     child: GNav(
-      //       selectedIndex: _currentIndex,
-      //       onTabChange: _onTabTapped,
-      //       // gap: 2,
-      //       activeColor: Color.fromARGB(255, 0, 106, 255),
-      //       backgroundColor: const Color.fromARGB(255, 57, 56, 56),
-      //       color: Colors.white,
-      //       tabBackgroundColor: Colors.grey.shade800,
-      //       iconSize: 16.w,
-      //       textSize: 8,
-      //       padding: EdgeInsets.fromLTRB(15.w, 10.h, 15.w, 10.h),
-      //       tabs: [
-      //         GButton(
-      //           icon: Icons.home,
-      //           text: 'الصفحة الرئيسية',
-      //         ),
-      //         GButton(
-      //           icon: FontAwesomeIcons.dumbbell,
-      //           text: 'التمارين',
-      //         ),
-      //         GButton(
-      //           icon: Icons.home,
-      //           text: 'التغذية',
-      //         ),
-      //         GButton(
-      //           icon: Icons.home,
-      //           text: 'المتابعة',
-      //         ),
-      //         GButton(
-      //           icon: Icons.home,
-      //           text: 'الصفحة الشخصية',
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // )
     );
   }
 
@@ -174,7 +181,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          
                           Text(
                             "لا يوجد اتصال بالانترنت",
                             style: TextStyle(
@@ -182,7 +188,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-
                           SizedBox(
                             height: 10.h,
                           ),

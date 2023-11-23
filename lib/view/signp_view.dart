@@ -14,129 +14,7 @@ import 'dart:ui' as ui;
 
 import '../model/signup_model.dart';
 
-/*class SignUpView extends StatefulWidget {
-  const SignUpView({Key? key}) : super(key: key);
 
-  @override
-  _SignUpViewState createState() => _SignUpViewState();
-}
-
-class _SignUpViewState extends State<SignUpView> {
-  ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
-
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-
-  FocusNode emailFocusNode = FocusNode();
-  FocusNode passwordFocusNode = FocusNode();
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-
-    _emailController.dispose();
-    _passwordController.dispose();
-
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
-
-    _obsecurePassword.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final authViewMode = Provider.of<AuthViewModel>(context);
-
-    final height = MediaQuery.of(context).size.height * 1;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 178, 166, 4),
-        //title: Text('SingUp'),
-        centerTitle: true,
-      ),
-      body: const SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            /* TextFormField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              focusNode: emailFocusNode,
-              decoration: const InputDecoration(
-                  hintText: 'Email',
-                  labelText: 'Email',
-                  prefixIcon: Icon(Icons.alternate_email)
-              ),
-              onFieldSubmitted: (valu){
-                Utils.fieldFocusChange(context, emailFocusNode, passwordFocusNode);
-              },
-            ),
-            ValueListenableBuilder(
-                valueListenable: _obsecurePassword,
-                builder: (context , value, child){
-                  return TextFormField(
-                    controller: _passwordController,
-                    obscureText: _obsecurePassword.value,
-                    focusNode: passwordFocusNode,
-
-                    obscuringCharacter: "*",
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                      labelText: 'Password',
-                      prefixIcon: Icon(Icons.lock_open_rounded),
-                      suffixIcon: InkWell(
-                          onTap: (){
-                            _obsecurePassword.value = !_obsecurePassword.value ;
-                          },
-                          child: Icon(
-                              _obsecurePassword.value ?  Icons.visibility_off_outlined :
-                              Icons.visibility
-                          )),
-                    ),
-                  );
-
-                }
-            ),
-            SizedBox(height: height * .085,),
-            RoundButton(
-              title: 'Sign Up',
-              loading: authViewMode.signUpLoading,
-              onPress: (){
-                if(_emailController.text.isEmpty){
-
-                  Utils.flushBarErrorMessage('Please enter email', context);
-                }else if(_passwordController.text.isEmpty){
-                  Utils.flushBarErrorMessage('Please enter password', context);
-
-                }else if(_passwordController.text.length < 6){
-                  Utils.flushBarErrorMessage('Please enter 6 digit password', context);
-
-                }else {
-                  Map data = {
-                    'email' : _emailController.text.toString(),
-                    'password' : _passwordController.text.toString(),
-                  };
-
-                  authViewMode.signUpApi(data , context);
-                  print('api hit');
-                }
-              },
-            ),
-            SizedBox(height: height * .02,),
-            InkWell(
-              onTap: (){
-                Navigator.pushNamed(context, RoutesName.login);
-              },
-                child: Text("Already  hace an accont? Logi"))*/
-          ],
-        ),
-      ),
-    );
-  }
-}*/
 
 class genderscreen extends StatefulWidget {
   const genderscreen({super.key});
@@ -146,6 +24,7 @@ class genderscreen extends StatefulWidget {
 }
 
 class _genderscreenState extends State<genderscreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   int? selectedValue; // Default selected radio button value
   String? selectedGender;
   TextEditingController name = TextEditingController();
@@ -243,140 +122,202 @@ class _genderscreenState extends State<genderscreen> {
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-        //title: Text('SingUp'),
         centerTitle: true,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 60.h,
-              ),
-              Center(
-                child: Text(
-                  'الأسم',
-                  style: TextStyle(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 60,
+                ),
+                Center(
+                  child: Text(
+                    'الأسم',
+                    style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Container(
-                height: 55,
-                width: 300.w,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    //border: Border.all(width: 1, color: Colors.white),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  //mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      width: 10,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Expanded(
-                        child: TextField(
-                      controller: name,
-                      keyboardType: TextInputType.name,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "الاسم",
-                      ),
-                    ))
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              // date of birth
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'تاريخ الميلاد',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold),
                   ),
-                  Container(
-                    height: 40.h,
-                    width: 180.w,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Container(
+                    height: 55,
+                    width: 300,
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        //border: Border.all(width: 1, color: Colors.white),
-                        borderRadius: BorderRadius.circular(10)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              // DateFormat.yMMMd().format(selectedDate),
-                              DateFormat('dd/MM/yyyy')
-                                  .format(selectedDate), // Format the date
-                              style: TextStyle(fontSize: 16.sp),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => _selectDate(context),
-                            icon: Icon(Icons.calendar_today,
-                                size: 20.sp), // Replace with your desired icon
-                            tooltip: 'Select DOB',
-                            color: Colors.black, // Customize the icon color
-                          ),
-                        ],
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: TextFormField(
+                        controller: name,
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "الاسم",
+                        ),
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     // return 'يرجى إدخال الاسم';
+                        //     SnackBar(
+                        //       content: Text('يرجى إدخال الاسم'),
+                        //     );
+                        //   }
+                        //   return null;
+                        // },
                       ),
                     ),
                   ),
-                ],
-              ),
-
-              SizedBox(
-                height: 30.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'نوع الجنس',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  _customRadio(1, 'رجل'),
-                  _customRadio(2, 'انثى'),
-                ],
-              ),
-
-              SizedBox(height: 170.h),
-              Padding(
-                padding: EdgeInsets.only(bottom: 15.0.h),
-                child: RoundButton(
-                  title: 'التالي',
-                  onPress: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => physicallyActivrScreen(
-                          name: name,
-                          selectDate: DateFormat('dd/MM/yyyy')
-                              .format(selectedDate)
-                              .toString(),
-                          selectedGender: selectedGender,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                // date of birth
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'تاريخ الميلاد',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    );
-                  },
+                      Container(
+                        height: 40,
+                        width: 180,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8.0,
+                            right: 8.0,
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Text(
+                                  DateFormat('dd/MM/yyyy').format(selectedDate),
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () => _selectDate(context),
+                                icon: Icon(Icons.calendar_today, size: 20),
+                                tooltip: 'Select DOB',
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'نوع الجنس',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      _customRadio(1, 'رجل'),
+                      _customRadio(2, 'انثى'),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 170),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 15.0),
+                  child: Container(
+                    height: 50.h,
+                    width: 240.w,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color.fromARGB(255, 6, 159, 182),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      ),
+                      onPressed: () {
+                        // Validate text field
+                        if (_formKey.currentState?.validate() ?? false) {
+                          // Validate name
+                          if (name.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Text('يرجى إدخال الاسم'),
+                              ),
+                            );
+                            return;
+                          }
+
+                          // // Validate date picker
+                          // if (selectedDate == DateTime.now() ||
+                          //     selectedDate.isBefore(DateTime.now())) {
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //     SnackBar(
+                          //       content: Text('يرجى اختيار تاريخ الميلاد'),
+                          //     ),
+                          //   );
+                          //   return;
+                          // }
+
+                          // Validate radio buttons
+                          if (selectedValue == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Text('يرجى اختيار نوع الجنس'),
+                              ),
+                            );
+                            return;
+                          }
+
+                          // Form is valid, proceed with the navigation
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => physicallyActivrScreen(
+                                name: name,
+                                selectDate: DateFormat('dd/MM/yyyy')
+                                    .format(selectedDate)
+                                    .toString(),
+                                selectedGender: selectedGender,
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      child: Text('التالي', style: TextStyle(fontSize: 20.sp)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -402,6 +343,7 @@ class physicallyActivrScreen extends StatefulWidget {
 class _physicallyActivrScreenState extends State<physicallyActivrScreen> {
   int? selectedValue; // Default selected radio button value
   String? selectedphysicallyActive;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _handleRadioValueChanged(int? value) {
     setState(() {
@@ -465,10 +407,7 @@ class _physicallyActivrScreenState extends State<physicallyActivrScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('fffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-    print(widget.name.text.toString() +
-        widget.selectDate.toString() +
-        widget.selectedGender.toString());
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -477,77 +416,124 @@ class _physicallyActivrScreenState extends State<physicallyActivrScreen> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 30.h,
-            ),
-            Center(
-              child: Text(
-                'ما مدى نشاطك البدني',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 30.h,
               ),
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15.0.w, right: 15.0.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(right: 0.0.w),
-                    child: Container(
-                      height: 280.h,
-                      width: 170.w,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/physicale.png'),
-                          fit: BoxFit.cover,
+              Center(
+                child: Text(
+                  'ما مدى نشاطك البدني',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 15.0.w, right: 15.0.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 0.0.w),
+                      child: Container(
+                        height: 280.h,
+                        width: 170.w,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/physicale.png'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(height: 20.h),
-                      _customRadio(1, 'لا يوجد'),
-                      SizedBox(height: 20.h),
-                      _customRadio(2, '1-2 تمرين'),
-                      SizedBox(height: 20.h),
-                      _customRadio(3, '3-4 تمرين'),
-                      SizedBox(height: 20.h),
-                      _customRadio(4, '+5 تمرين'),
-                    ],
-                  )
-                ],
+                    Column(
+                      children: [
+                        SizedBox(height: 20.h),
+                        _customRadio(1, 'لا يوجد'),
+                        SizedBox(height: 20.h),
+                        _customRadio(2, '1-2 تمرين'),
+                        SizedBox(height: 20.h),
+                        _customRadio(3, '3-4 تمرين'),
+                        SizedBox(height: 20.h),
+                        _customRadio(4, '+5 تمرين'),
+                      ],
+                    )
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 50.h),
-            Padding(
-              padding: EdgeInsets.only(bottom: 15.0.h),
-              child: RoundButton(
-                title: 'التالي',
-                onPress: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => setgoalscreen(
-                        name: widget.name,
-                        selectDate: widget.selectDate,
-                        selectedGender: widget.selectedGender,
-                        selectedphysicallyActive: selectedphysicallyActive,
+              SizedBox(height: 50.h),
+              Padding(
+                padding: EdgeInsets.only(bottom: 15.0.h),
+                child: Container(
+                  height: 50.h,
+                  width: 240.w,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color.fromARGB(255, 6, 159, 182),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
                     ),
-                  );
-                },
+                    onPressed: () {
+                      // Validate text field
+                      if (_formKey.currentState?.validate() ?? false) {
+                        // Validate radio buttons
+                        if (selectedValue == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text('يرجى اختيار مدى نشاطك البدني'),
+                            ),
+                          );
+                          return;
+                        }
+
+                        // Form is valid, proceed with the navigation
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => setgoalscreen(
+                              name: widget.name,
+                              selectDate: widget.selectDate,
+                              selectedGender: widget.selectedGender,
+                              selectedphysicallyActive:
+                                  selectedphysicallyActive,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text('التالي', style: TextStyle(fontSize: 20.sp)),
+                  ),
+                ),
+
+                /*RoundButton(
+                  title: 'التالي',
+                  onPress: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => setgoalscreen(
+                          name: widget.name,
+                          selectDate: widget.selectDate,
+                          selectedGender: widget.selectedGender,
+                          selectedphysicallyActive: selectedphysicallyActive,
+                        ),
+                      ),
+                    );
+                  },
+                ),*/
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -574,6 +560,7 @@ class setgoalscreen extends StatefulWidget {
 class _setgoalscreenState extends State<setgoalscreen> {
   int? selectedValue; // Default selected radio button value
   String? selectedGoal;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _handleRadioValueChanged(int? value) {
     setState(() {
@@ -628,11 +615,7 @@ class _setgoalscreenState extends State<setgoalscreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('fffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-    print(widget.name.text.toString() +
-        widget.selectDate.toString() +
-        widget.selectedGender.toString() +
-        widget.selectedphysicallyActive.toString());
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -642,51 +625,68 @@ class _setgoalscreenState extends State<setgoalscreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 30.h,
-              ),
-              Center(
-                child: Text(
-                  'حدد هدفك',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.bold),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 30.h,
                 ),
-              ),
-              SizedBox(
-                height: 40.h,
-              ),
-              _customRadio(1, 'بناء عضلات'),
-              SizedBox(height: 30.h),
-              _customRadio(2, 'فقدان الوزن'),
-              SizedBox(height: 30.h),
-              _customRadio(3, 'زيادة اللياقة البدنية'),
-              SizedBox(height: 170.h),
-              Padding(
-                padding: EdgeInsets.only(bottom: 15.0.h),
-                child: RoundButton(
-                  title: 'التالي',
-                  onPress: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => selectbodytypescreen(
-                          name: widget.name,
-                          selectDate: widget.selectDate,
-                          selectedGender: widget.selectedGender,
-                          selectedphysicallyActive:
-                              widget.selectedphysicallyActive,
-                          selectedGoal: selectedGoal,
-                        ),
-                      ),
-                    );
-                  },
+                Center(
+                  child: Text(
+                    'حدد هدفك',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 40.h,
+                ),
+                _customRadio(1, 'بناء عضلات'),
+                SizedBox(height: 30.h),
+                _customRadio(2, 'فقدان الوزن'),
+                SizedBox(height: 30.h),
+                _customRadio(3, 'زيادة اللياقة البدنية'),
+                SizedBox(height: 170.h),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 15.0.h),
+                  child: RoundButton(
+                    title: 'التالي',
+                    onPress: () {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        // Validate radio buttons
+                        if (selectedValue == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text('يرجى اختيار هدفك'),
+                            ),
+                          );
+                          return;
+                        }
+
+                        // Form is valid, proceed with the navigation
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => selectbodytypescreen(
+                              name: widget.name,
+                              selectDate: widget.selectDate,
+                              selectedGender: widget.selectedGender,
+                              selectedphysicallyActive:
+                                  widget.selectedphysicallyActive,
+                              selectedGoal: selectedGoal,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -717,6 +717,7 @@ class selectbodytypescreen extends StatefulWidget {
 class _selectbodytypescreenState extends State<selectbodytypescreen> {
   int? selectedValue; // Default selected radio button value
   String? selectedBodyType;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _handleRadioValueChanged(int? value) {
     setState(() {
@@ -776,12 +777,7 @@ class _selectbodytypescreenState extends State<selectbodytypescreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('fffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-    print(widget.name.text.toString() +
-        widget.selectDate.toString() +
-        widget.selectedGender.toString() +
-        widget.selectedphysicallyActive.toString() +
-        widget.selectedGoal.toString());
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -791,53 +787,71 @@ class _selectbodytypescreenState extends State<selectbodytypescreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 30.h,
-              ),
-              Center(
-                child: Text(
-                  'اختر نوع جسمك',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.bold),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 30.h,
                 ),
-              ),
-              SizedBox(
-                height: 40.h,
-              ),
-              _customRadio(1, 'نحيف', 'assets/images/skinn.png'),
-              SizedBox(height: 30.h),
-              _customRadio(2, 'عادي', 'assets/images/reguler.png'),
-              SizedBox(height: 30.h),
-              _customRadio(3, 'سمين', 'assets/images/fat.png'),
-              SizedBox(height: 50.h),
-              Padding(
-                padding: EdgeInsets.only(bottom: 15.0.h),
-                child: RoundButton(
-                  title: 'التالي',
-                  onPress: () {
-                    // Navigator.pushNamed(context, RoutesName.selectbodygoal);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => selectbodygoalscreen(
-                          name: widget.name,
-                          selectDate: widget.selectDate,
-                          selectedGender: widget.selectedGender,
-                          selectedphysicallyActive:
-                              widget.selectedphysicallyActive,
-                          selectedGoal: widget.selectedGoal,
-                          selectedBodyType: selectedBodyType,
-                        ),
-                      ),
-                    );
-                  },
+                Center(
+                  child: Text(
+                    'اختر نوع جسمك',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 40.h,
+                ),
+                _customRadio(1, 'نحيف', 'assets/images/skinn.png'),
+                SizedBox(height: 30.h),
+                _customRadio(2, 'عادي', 'assets/images/reguler.png'),
+                SizedBox(height: 30.h),
+                _customRadio(3, 'سمين', 'assets/images/fat.png'),
+                SizedBox(height: 50.h),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 15.0.h),
+                  child: RoundButton(
+                    title: 'التالي',
+                    onPress: () {
+                      // Navigator.pushNamed(context, RoutesName.selectbodygoal);
+
+                      if (_formKey.currentState?.validate() ?? false) {
+                        // Validate radio buttons
+                        if (selectedValue == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text('يرجى اختيار نوع جسمك'),
+                            ),
+                          );
+                          return;
+                        }
+
+                        // Form is valid, proceed with the navigation
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => selectbodygoalscreen(
+                              name: widget.name,
+                              selectDate: widget.selectDate,
+                              selectedGender: widget.selectedGender,
+                              selectedphysicallyActive:
+                                  widget.selectedphysicallyActive,
+                              selectedGoal: widget.selectedGoal,
+                              selectedBodyType: selectedBodyType,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -869,6 +883,7 @@ class selectbodygoalscreen extends StatefulWidget {
 class _selectbodygoalscreenState extends State<selectbodygoalscreen> {
   int? selectedValue; // Default selected radio button value
   String? selectedBodyGoal;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _handleRadioValueChanged(int? value) {
     setState(() {
@@ -929,13 +944,7 @@ class _selectbodygoalscreenState extends State<selectbodygoalscreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('fffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-    print(widget.name.text.toString() +
-        widget.selectDate.toString() +
-        widget.selectedGender.toString() +
-        widget.selectedphysicallyActive.toString() +
-        widget.selectedGoal.toString() +
-        widget.selectedBodyType.toString());
+
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
@@ -945,57 +954,76 @@ class _selectbodygoalscreenState extends State<selectbodygoalscreen> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 30.h,
-            ),
-            Center(
-              child: Text(
-                'اختر الجسم الذي تريد الوصول إليه',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 30.h,
               ),
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            _customRadio(1, 'تنشيف', 'assets/images/cut.png'),
-            SizedBox(height: 10.h),
-            _customRadio(2, 'ضخامة صافية', 'assets/images/bulk.png'),
-            SizedBox(height: 10.h),
-            _customRadio(3, 'ضخامة غير صافية', 'assets/images/extrabulk.png'),
-            SizedBox(height: 10.h),
-            _customRadio(4, 'تحضير بطولة', 'assets/images/bodybuilder.png'),
-            SizedBox(height: 20.h),
-            Padding(
-              padding: EdgeInsets.only(bottom: 15.0.h),
-              child: RoundButton(
-                title: 'التالي',
-                onPress: () {
-                  // Navigator.pushNamed(context, RoutesName.motivationcheckbox);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => motivationCheckboxscreen(
-                        name: widget.name,
-                        selectDate: widget.selectDate,
-                        selectedGender: widget.selectedGender,
-                        selectedphysicallyActive:
-                            widget.selectedphysicallyActive,
-                        selectedGoal: widget.selectedGoal,
-                        selectedBodyType: widget.selectedBodyType,
-                        selectedBodyGoal: selectedBodyGoal,
-                      ),
-                    ),
-                  );
-                },
+              Center(
+                child: Text(
+                  'اختر الجسم الذي تريد الوصول إليه',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            SizedBox(height: 20.h),
-          ],
+              SizedBox(
+                height: 20.h,
+              ),
+              _customRadio(1, 'تنشيف', 'assets/images/cut.png'),
+              SizedBox(height: 10.h),
+              _customRadio(2, 'ضخامة صافية', 'assets/images/bulk.png'),
+              SizedBox(height: 10.h),
+              _customRadio(3, 'ضخامة غير صافية', 'assets/images/extrabulk.png'),
+              SizedBox(height: 10.h),
+              _customRadio(4, 'تحضير بطولة', 'assets/images/bodybuilder.png'),
+              SizedBox(height: 20.h),
+              Padding(
+                padding: EdgeInsets.only(bottom: 15.0.h),
+                child: RoundButton(
+                  title: 'التالي',
+                  onPress: () {
+                    // Navigator.pushNamed(context, RoutesName.motivationcheckbox);
+
+                    if (_formKey.currentState?.validate() ?? false) {
+                      // Validate radio buttons
+                      if (selectedValue == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text(
+                                'يرجى اختيار الجسم الذي تريد الوصول إليه '),
+                          ),
+                        );
+                        return;
+                      }
+
+                      // Form is valid, proceed with the navigation
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => motivationCheckboxscreen(
+                            name: widget.name,
+                            selectDate: widget.selectDate,
+                            selectedGender: widget.selectedGender,
+                            selectedphysicallyActive:
+                                widget.selectedphysicallyActive,
+                            selectedGoal: widget.selectedGoal,
+                            selectedBodyType: widget.selectedBodyType,
+                            selectedBodyGoal: selectedBodyGoal,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+              SizedBox(height: 20.h),
+            ],
+          ),
         ),
       ),
     );
@@ -1029,6 +1057,7 @@ class motivationCheckboxscreen extends StatefulWidget {
 class _motivationCheckboxscreenState extends State<motivationCheckboxscreen> {
   List<int> selectedValues = []; // Selected checkbox values
   List<String> selectedMotivation = [];
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _handleCheckboxValueChanged(int value) {
     setState(() {
@@ -1097,14 +1126,7 @@ class _motivationCheckboxscreenState extends State<motivationCheckboxscreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('fffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-    print(widget.name.text.toString() +
-        widget.selectDate.toString() +
-        widget.selectedGender.toString() +
-        widget.selectedphysicallyActive.toString() +
-        widget.selectedGoal.toString() +
-        widget.selectedBodyType.toString() +
-        widget.selectedBodyGoal.toString());
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -1114,55 +1136,73 @@ class _motivationCheckboxscreenState extends State<motivationCheckboxscreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 30.h,
-              ),
-              Center(
-                child: Text(
-                  'مالذي يحفزك على ممارسة الرياضة',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.bold),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 30.h,
                 ),
-              ),
-              SizedBox(
-                height: 30.h,
-              ),
-              _customCheckbox(1, 'تحسين الحالة الصحية'),
-              const SizedBox(height: 20),
-              _customCheckbox(2, 'تحسين المظهر'),
-              const SizedBox(height: 20),
-              _customCheckbox(3, 'زيادة القوة البدنية'),
-              SizedBox(height: 180.h),
-              Padding(
-                padding: EdgeInsets.only(bottom: 15.0.h),
-                child: RoundButton(
-                  title: 'التالي',
-                  onPress: () {
-                    // Navigator.pushNamed(context, RoutesName.profiledetails);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => profiledetailsscreen(
-                          name: widget.name,
-                          selectDate: widget.selectDate,
-                          selectedGender: widget.selectedGender,
-                          selectedphysicallyActive:
-                              widget.selectedphysicallyActive,
-                          selectedGoal: widget.selectedGoal,
-                          selectedBodyType: widget.selectedBodyType,
-                          selectedBodyGoal: widget.selectedBodyGoal,
-                          selectedMotivation: selectedMotivation,
-                        ),
-                      ),
-                    );
-                  },
+                Center(
+                  child: Text(
+                    'مالذي يحفزك على ممارسة الرياضة',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 30.h,
+                ),
+                _customCheckbox(1, 'تحسين الحالة الصحية'),
+                const SizedBox(height: 20),
+                _customCheckbox(2, 'تحسين المظهر'),
+                const SizedBox(height: 20),
+                _customCheckbox(3, 'زيادة القوة البدنية'),
+                SizedBox(height: 180.h),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 15.0.h),
+                  child: RoundButton(
+                    title: 'التالي',
+                    onPress: () {
+                      // Navigator.pushNamed(context, RoutesName.profiledetails);
+                      if (_formKey.currentState?.validate() ?? false) {
+                        // Validate radio buttons
+                        if (selectedValues.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text(
+                                  'يرجى اختيار ما يحفزك على ممارسة الرياضة'),
+                            ),
+                          );
+                          return;
+                        }
+
+                        // Form is valid, proceed with the navigation
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => profiledetailsscreen(
+                              name: widget.name,
+                              selectDate: widget.selectDate,
+                              selectedGender: widget.selectedGender,
+                              selectedphysicallyActive:
+                                  widget.selectedphysicallyActive,
+                              selectedGoal: widget.selectedGoal,
+                              selectedBodyType: widget.selectedBodyType,
+                              selectedBodyGoal: widget.selectedBodyGoal,
+                              selectedMotivation: selectedMotivation,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -1196,12 +1236,14 @@ class profiledetailsscreen extends StatefulWidget {
 }
 
 class _profiledetailsscreenState extends State<profiledetailsscreen> {
-  int selectedWeight = 45; // Default selected weight in kg
-  int targetWeight = 0; // Default selected weight in kg
-  int length = 140; // Default selected length in cm
-  int selectedweightGoal = 0; // Default selected weight in kg
-  int selectedLengthGoal = 0; // Default selected length in cm
+  int selectedWeight = 0; // Default selected weight in kg
+  // int targetWeight = 0;
+  int length = 0; // Default selected length in cm
+  int selectedweightGoal = 0;
+  int selectedLengthGoal = 0;
   // int selectedtargetweightGoal = 0; // Default selected length in cm
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _showWeightPicker(BuildContext context) {
     showCupertinoModalPopup(
@@ -1405,15 +1447,7 @@ class _profiledetailsscreenState extends State<profiledetailsscreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('fffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-    print(widget.name.text.toString() +
-        widget.selectDate.toString() +
-        widget.selectedGender.toString() +
-        widget.selectedphysicallyActive.toString() +
-        widget.selectedGoal.toString() +
-        widget.selectedBodyType.toString() +
-        widget.selectedBodyGoal.toString() +
-        widget.selectedMotivation.toString());
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -1422,221 +1456,167 @@ class _profiledetailsscreenState extends State<profiledetailsscreen> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 30.h,
-            ),
-            Center(
-              child: Text(
-                'تفاصيل الملف الشخصي',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 30.h,
               ),
-            ),
-            SizedBox(
-              height: 30.h,
-            ),
-            Padding(
-              padding:
-                  EdgeInsets.only(left: 8.0.w, right: 25.0.w, bottom: 10.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text("الوزن",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold)),
-                ],
+              Center(
+                child: Text(
+                  'تفاصيل الملف الشخصي',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            Container(
-              height: 50.h,
-              width: 280.w,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 30, 30, 43),
-                borderRadius: BorderRadius.circular(10.0),
+              SizedBox(
+                height: 30.h,
               ),
-              child: Padding(
-                padding: EdgeInsets.only(left: 10.0.w, right: 10.0.w),
+              Padding(
+                padding:
+                    EdgeInsets.only(left: 8.0.w, right: 25.0.w, bottom: 10.h),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      '$selectedWeight kg',
-                      style: TextStyle(fontSize: 18.sp, color: Colors.white),
-                    ),
-                    // InkWell(
-                    //   onTap: () {
-                    //     _showWeightPicker(context);
-                    //   },
-                    //   child: Container(
-                    //     height: 30.h,
-                    //     width: 30.w,
-                    //     decoration: const BoxDecoration(
-                    //       // color: const Color.fromARGB(255, 72, 71, 71),
-                    //       // borderRadius: BorderRadius.circular(30.0),
-                    //       image: DecorationImage(
-                    //         image: AssetImage('assets/images/add.png'),
-                    //         fit: BoxFit.cover,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   child:
-                    //   )
-                    IconButton(
-                      onPressed: () {
-                        _showWeightPicker(context);
-                      },
-                      icon: Center(
-                          child: Icon(Icons.add,
-                              size: 25.sp, color: Colors.white)),
-                    ),
+                    Text("الوزن",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              height: 15.h,
-            ),
-            // Container(
-            //   height: 50.h,
-            //   width: 280.w,
-            //   decoration: BoxDecoration(
-            //     color: const Color.fromARGB(255, 72, 71, 71),
-            //     borderRadius: BorderRadius.circular(10.0),
-            //   ),
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(10.0),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: [
-            //         Text(
-            //           targetWeight == 0 ? 'الوزن المستهدف' : '$targetWeight kg',
-            //           style: const TextStyle(fontSize: 20, color: Colors.white),
-            //         ),
-            //         Container(
-            //           height: 30.h,
-            //           width: 30.w,
-            //           decoration: BoxDecoration(
-            //             color: Colors.white,
-            //             borderRadius: BorderRadius.circular(30.0),
-            //           ),
-            //           child: IconButton(
-            //             onPressed: () {
-            //               _showTargetWeightPicker(context);
-            //             },
-            //             icon: Icon(Icons.add, size: 19.sp, color: Colors.black),
-            //           ),
-            //         )
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 15.h,
-            // ),
-            Padding(
-              padding:
-                  EdgeInsets.only(left: 8.0.w, right: 25.0.w, bottom: 10.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text("الطول",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold)),
-                ],
-              ),
-            ),
-            Container(
-              height: 50.h,
-              width: 280.w,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 30, 30, 43),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '$length cm',
-                      style: TextStyle(fontSize: 18.sp, color: Colors.white),
-                    ),
-                    // InkWell(
-                    //   onTap: () {
-                    //     _showLenthtPicker(context);
-                    //   },
-                    //   child: Container(
-                    //     height: 30.h,
-                    //     width: 30.w,
-                    //     decoration: const BoxDecoration(
-                    //       // color: const Color.fromARGB(255, 72, 71, 71),
-                    //       // borderRadius: BorderRadius.circular(30.0),
-                    //       image: DecorationImage(
-                    //         image: AssetImage('assets/images/add.png'),
-                    //         fit: BoxFit.cover,
-                    //       ),
-                    //     ),
-
-                    //   ),
-                    //   child:
-                    //   )
-                    IconButton(
-                      onPressed: () {
-                        _showLenthtPicker(context);
-                      },
-                      icon: Center(
-                          child: Icon(Icons.add,
-                              size: 25.sp, color: Colors.white)),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 170.h,
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 15.0.h),
-              child: RoundButton(
-                title: 'التالي',
-                onPress: () {
-                  // Navigator.pushNamed(context, RoutesName.targetzone);
-                  // print('jjfhjebucbohbdjhbd');
-                  // print(selectedLengthGoal +
-                  //     selectedweightGoal +
-                  //     selectedtargetweightGoal);
-                  // print('jjfhjebucbohbdjhbd');
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => targetzonescreen(
-                        name: widget.name,
-                        selectDate: widget.selectDate,
-                        selectedGender: widget.selectedGender,
-                        selectedphysicallyActive:
-                            widget.selectedphysicallyActive,
-                        selectedGoal: widget.selectedGoal,
-                        selectedBodyType: widget.selectedBodyType,
-                        selectedBodyGoal: widget.selectedBodyGoal,
-                        selectedMotivation: widget.selectedMotivation,
-                        selectedWeight: selectedweightGoal.toString(),
-                        selectedLength: selectedLengthGoal.toString(),
-                        // selectedtargetWeight: selectedtargetweightGoal.toString(),
-                      ),
-                    ),
-                  );
+              InkWell(
+                onTap: () {
+                  _showWeightPicker(context);
                 },
+                child: Container(
+                  height: 50.h,
+                  width: 280.w,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 30, 30, 43),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10.0.w, right: 10.0.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '$selectedWeight kg',
+                          style:
+                              TextStyle(fontSize: 18.sp, color: Colors.white),
+                        ),
+                        Icon(Icons.add, size: 25.sp, color: Colors.white),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
+              SizedBox(
+                height: 15.h,
+              ),
+              Padding(
+                padding:
+                    EdgeInsets.only(left: 8.0.w, right: 25.0.w, bottom: 10.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("الطول",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  _showLenthtPicker(context);
+                },
+                child: Container(
+                  height: 50.h,
+                  width: 280.w,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 30, 30, 43),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '$length cm',
+                          style:
+                              TextStyle(fontSize: 18.sp, color: Colors.white),
+                        ),
+                        Icon(Icons.add, size: 25.sp, color: Colors.white),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 170.h,
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 15.0.h),
+                child: RoundButton(
+                  title: 'التالي',
+                  onPress: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      // Validate selectedWeight
+                      if (selectedWeight == 0) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text('يرجى اختيار الوزن'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      // Validate length
+                      if (length == 0) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text('يرجى اختيار الطول'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      // Form is valid, proceed with the navigation
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => targetzonescreen(
+                            name: widget.name,
+                            selectDate: widget.selectDate,
+                            selectedGender: widget.selectedGender,
+                            selectedphysicallyActive:
+                                widget.selectedphysicallyActive,
+                            selectedGoal: widget.selectedGoal,
+                            selectedBodyType: widget.selectedBodyType,
+                            selectedBodyGoal: widget.selectedBodyGoal,
+                            selectedMotivation: widget.selectedMotivation,
+                            selectedWeight: selectedweightGoal.toString(),
+                            selectedLength: selectedLengthGoal.toString(),
+                            // selectedtargetWeight: selectedtargetweightGoal.toString(),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -1677,6 +1657,7 @@ class targetzonescreen extends StatefulWidget {
 class _targetzonescreenState extends State<targetzonescreen> {
   List<int> selectedValues = []; // Selected checkbox values
   List<String> selectedTargetZone = [];
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _handleCheckboxValueChanged(int value) {
     setState(() {
@@ -1737,19 +1718,7 @@ class _targetzonescreenState extends State<targetzonescreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('fffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-    print(widget.name.text.toString() +
-            widget.selectDate.toString() +
-            widget.selectedGender.toString() +
-            widget.selectedphysicallyActive.toString() +
-            widget.selectedGoal.toString() +
-            widget.selectedBodyType.toString() +
-            widget.selectedBodyGoal.toString() +
-            widget.selectedMotivation.toString() +
-            widget.selectedWeight.toString() +
-            widget.selectedLength.toString()
-        // widget.selectedtargetWeight.toString()
-        );
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -1767,88 +1736,108 @@ class _targetzonescreenState extends State<targetzonescreen> {
           ),
         ),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20.h,
-              ),
-              Text(
-                'اختر منطقة الهدف',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 120.h,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 15.0.w, right: 15.0.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(width: 90.w, child: _customCheckbox(1, 'الصدر')),
-                    Container(
-                        width: 90.w, child: _customCheckbox(2, 'الذراعين')),
-                  ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20.h,
                 ),
-              ),
-              SizedBox(
-                height: 30.h,
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 15.0.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(width: 90.w, child: _customCheckbox(3, 'البطن')),
-                  ],
+                Text(
+                  'اختر منطقة الهدف',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.bold),
                 ),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 15.0.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                        width: 90.w, child: _customCheckbox(4, 'الرجلين')),
-                  ],
+                SizedBox(
+                  height: 120.h,
                 ),
-              ),
-              SizedBox(height: 140.h),
-              Padding(
-                padding: EdgeInsets.only(bottom: 15.0.h),
-                child: RoundButton(
-                  title: 'التالي',
-                  onPress: () {
-                    // Navigator.pushNamed(context, RoutesName.signUp);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignUpView(
-                          name: widget.name,
-                          selectDate: widget.selectDate,
-                          selectedGender: widget.selectedGender,
-                          selectedphysicallyActive:
-                              widget.selectedphysicallyActive,
-                          selectedGoal: widget.selectedGoal,
-                          selectedBodyType: widget.selectedBodyType,
-                          selectedBodyGoal: widget.selectedBodyGoal,
-                          selectedMotivation: widget.selectedMotivation,
-                          selectedWeight: widget.selectedWeight,
-                          selectedLength: widget.selectedLength,
-                          // selectedtargetWeight: widget.selectedtargetWeight,
-                          selectedTargetZone: selectedTargetZone,
-                        ),
-                      ),
-                    );
-                  },
+                Padding(
+                  padding: EdgeInsets.only(left: 15.0.w, right: 15.0.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                          width: 90.w, child: _customCheckbox(1, 'الصدر')),
+                      Container(
+                          width: 90.w, child: _customCheckbox(2, 'الذراعين')),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 30.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 15.0.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                          width: 90.w, child: _customCheckbox(3, 'البطن')),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 15.0.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                          width: 90.w, child: _customCheckbox(4, 'الرجلين')),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 140.h),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 15.0.h),
+                  child: RoundButton(
+                    title: 'التالي',
+                    onPress: () {
+                      // Navigator.pushNamed(context, RoutesName.signUp);
+
+                      if (_formKey.currentState?.validate() ?? false) {
+                        // Validate radio buttons
+                        if (selectedValues.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text('يرجى اختيار منطقة الهدف'),
+                            ),
+                          );
+                          return;
+                        }
+
+                        // Form is valid, proceed with the navigation
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignUpView(
+                              name: widget.name,
+                              selectDate: widget.selectDate,
+                              selectedGender: widget.selectedGender,
+                              selectedphysicallyActive:
+                                  widget.selectedphysicallyActive,
+                              selectedGoal: widget.selectedGoal,
+                              selectedBodyType: widget.selectedBodyType,
+                              selectedBodyGoal: widget.selectedBodyGoal,
+                              selectedMotivation: widget.selectedMotivation,
+                              selectedWeight: widget.selectedWeight,
+                              selectedLength: widget.selectedLength,
+                              // selectedtargetWeight: widget.selectedtargetWeight,
+                              selectedTargetZone: selectedTargetZone,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -1971,22 +1960,22 @@ class _SignUpViewState extends State<SignUpView> {
                                   border: InputBorder.none,
                                   hintText: "اسم المستخدم",
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        backgroundColor: Colors.red,
-                                        content:
-                                            Text('الرجاء ادخال اسم المستخدم'),
-                                        // You can customize the SnackBar appearance and duration here
-                                      ),
-                                    );
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value == null || value.isEmpty) {
+                                //     ScaffoldMessenger.of(context).showSnackBar(
+                                //       SnackBar(
+                                //         shape: RoundedRectangleBorder(
+                                //             borderRadius:
+                                //                 BorderRadius.circular(10)),
+                                //         backgroundColor: Colors.red,
+                                //         content:
+                                //             Text('الرجاء ادخال اسم المستخدم'),
+                                //         // You can customize the SnackBar appearance and duration here
+                                //       ),
+                                //     );
+                                //   }
+                                //   return null;
+                                // },
                               ),
                             ),
                           ),
@@ -2017,22 +2006,22 @@ class _SignUpViewState extends State<SignUpView> {
                                   border: InputBorder.none,
                                   hintText: "كلمة المرور",
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        backgroundColor: Colors.red,
-                                        content:
-                                            Text('الرجاء ادخال كلمة المرور'),
-                                        // You can customize the SnackBar appearance and duration here
-                                      ),
-                                    );
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value == null || value.isEmpty) {
+                                //     ScaffoldMessenger.of(context).showSnackBar(
+                                //       SnackBar(
+                                //         shape: RoundedRectangleBorder(
+                                //             borderRadius:
+                                //                 BorderRadius.circular(10)),
+                                //         backgroundColor: Colors.red,
+                                //         content:
+                                //             Text('الرجاء ادخال كلمة المرور'),
+                                //         // You can customize the SnackBar appearance and duration here
+                                //       ),
+                                //     );
+                                //   }
+                                //   return null;
+                                // },
                               ),
                             ),
                           ),
@@ -2086,22 +2075,22 @@ class _SignUpViewState extends State<SignUpView> {
                                   border: InputBorder.none,
                                   prefixText: "+218",
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        backgroundColor: Colors.red,
-                                        content:
-                                            Text('الرجاء ادخال رقم الهاتف'),
-                                        // You can customize the SnackBar appearance and duration here
-                                      ),
-                                    );
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value == null || value.isEmpty) {
+                                //     ScaffoldMessenger.of(context).showSnackBar(
+                                //       SnackBar(
+                                //         shape: RoundedRectangleBorder(
+                                //             borderRadius:
+                                //                 BorderRadius.circular(10)),
+                                //         backgroundColor: Colors.red,
+                                //         content:
+                                //             Text('الرجاء ادخال رقم الهاتف'),
+                                //         // You can customize the SnackBar appearance and duration here
+                                //       ),
+                                //     );
+                                //   }
+                                //   return null;
+                                // },
                               ),
                             ),
                           ),
@@ -2125,27 +2114,39 @@ class _SignUpViewState extends State<SignUpView> {
                           ),
                         ),
                         onPressed: () async {
-                          if (_formKey.currentState?.validate() ?? false) {
+                          if (_formKey.currentState!.validate() &&
+                              countryController.text.isNotEmpty &&
+                              usernameController.text.isNotEmpty &&
+                              _passwordController.text.isNotEmpty) {
                             final signUpData = {
-                              "aim": widget.selectedBodyGoal ?? '',
-                              "birthday": widget.selectDate ?? '',
-                              "focuson":
-                                  widget.selectedTargetZone.join(':') ?? '',
-                              "height": widget.selectedLength ?? '',
+                              "aim": widget.selectedBodyGoal,
+                              "birthday": widget.selectDate,
+                              "focuson": widget.selectedTargetZone.join(':'),
+                              "height": widget.selectedLength,
                               "ismale": bool.fromEnvironment(
                                   widget.selectedGender ?? ''),
-                              "name": widget.name.text ?? '',
-                              "weight": widget.selectedWeight ?? '',
-                              "bodytype": widget.selectedBodyType ?? '',
-                              "objective":
-                                  widget.selectedMotivation.join(':') ?? '',
+                              "name": widget.name.text,
+                              "weight": widget.selectedWeight,
+                              "bodytype": widget.selectedBodyType,
+                              "objective": widget.selectedMotivation.join(':'),
                               "phone": countryController.text,
-                              "username": usernameController.text ?? '',
-                              "password": _passwordController.text ?? '',
-                              "goal": widget.selectedGoal ?? '',
+                              "username": usernameController.text,
+                              "password": _passwordController.text,
+                              "goal": widget.selectedGoal,
                             };
 
                             authViewModel.signUpApi(context, signUpData);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                backgroundColor: Colors.red,
+                                content:
+                                    Text('الرجاء ملء جميع الحقول المطلوبة'),
+                              ),
+                            );
                           }
                         },
                         child: Text(
@@ -2168,150 +2169,150 @@ class _SignUpViewState extends State<SignUpView> {
   }
 }
 
-class Verifyphone extends StatefulWidget {
-  const Verifyphone({Key? key}) : super(key: key);
+// class Verifyphone extends StatefulWidget {
+//   const Verifyphone({Key? key}) : super(key: key);
 
-  @override
-  State<Verifyphone> createState() => _VerifyphoneState();
-}
+//   @override
+//   State<Verifyphone> createState() => _VerifyphoneState();
+// }
 
-class _VerifyphoneState extends State<Verifyphone> {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  @override
-  Widget build(BuildContext context) {
-    final defaultPinTheme = PinTheme(
-      width: 56,
-      height: 56,
-      textStyle: const TextStyle(
-          fontSize: 20,
-          color: Color.fromRGBO(30, 60, 87, 1),
-          fontWeight: FontWeight.w600),
-      decoration: BoxDecoration(
-        border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
-        borderRadius: BorderRadius.circular(20),
-      ),
-    );
+// class _VerifyphoneState extends State<Verifyphone> {
+//   final FirebaseAuth auth = FirebaseAuth.instance;
+//   @override
+//   Widget build(BuildContext context) {
+//     final defaultPinTheme = PinTheme(
+//       width: 56,
+//       height: 56,
+//       textStyle: const TextStyle(
+//           fontSize: 20,
+//           color: Color.fromRGBO(30, 60, 87, 1),
+//           fontWeight: FontWeight.w600),
+//       decoration: BoxDecoration(
+//         border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
+//         borderRadius: BorderRadius.circular(20),
+//       ),
+//     );
 
-    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-      border: Border.all(color: const Color.fromRGBO(114, 178, 238, 1)),
-      borderRadius: BorderRadius.circular(8),
-    );
+//     final focusedPinTheme = defaultPinTheme.copyDecorationWith(
+//       border: Border.all(color: const Color.fromRGBO(114, 178, 238, 1)),
+//       borderRadius: BorderRadius.circular(8),
+//     );
 
-    final submittedPinTheme = defaultPinTheme.copyWith(
-      decoration: defaultPinTheme.decoration?.copyWith(
-        color: const Color.fromRGBO(234, 239, 243, 1),
-      ),
-    );
+//     final submittedPinTheme = defaultPinTheme.copyWith(
+//       decoration: defaultPinTheme.decoration?.copyWith(
+//         color: const Color.fromRGBO(234, 239, 243, 1),
+//       ),
+//     );
 
-    var code = "";
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_rounded,
-            color: Colors.white,
-          ),
-        ),
-        elevation: 0,
-      ),
-      body: Container(
-        margin: const EdgeInsets.only(left: 25, right: 25),
-        alignment: Alignment.center,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 25,
-              ),
-              const Text(
-                "التحقق من الهاتف",
-                style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              /*Text(
-                "We need to register your phone without getting started!",
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-                textAlign: TextAlign.center,
-              ),*/
-              const SizedBox(
-                height: 30,
-              ),
-              Directionality(
-                textDirection: ui.TextDirection.ltr,
-                child: Pinput(
-                  length: 6,
-                  // defaultPinTheme: defaultPinTheme,
-                  // focusedPinTheme: focusedPinTheme,
-                  // submittedPinTheme: submittedPinTheme,
-                  onChanged: (value) {
-                    code = value;
-                  },
-                  showCursor: true,
-                  onCompleted: (pin) => print(pin),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 45,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: const Color.fromARGB(255, 30, 99, 196),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    onPressed: () async {
-                      try {
-                        PhoneAuthCredential credential =
-                            PhoneAuthProvider.credential(
-                                verificationId: SignUpView.verify,
-                                smsCode: code);
+//     var code = "";
+//     return Scaffold(
+//       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
+//       extendBodyBehindAppBar: true,
+//       appBar: AppBar(
+//         backgroundColor: Colors.transparent,
+//         leading: IconButton(
+//           onPressed: () {
+//             Navigator.pop(context);
+//           },
+//           icon: const Icon(
+//             Icons.arrow_back_ios_rounded,
+//             color: Colors.white,
+//           ),
+//         ),
+//         elevation: 0,
+//       ),
+//       body: Container(
+//         margin: const EdgeInsets.only(left: 25, right: 25),
+//         alignment: Alignment.center,
+//         child: SingleChildScrollView(
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               const SizedBox(
+//                 height: 25,
+//               ),
+//               const Text(
+//                 "التحقق من الهاتف",
+//                 style: TextStyle(
+//                     fontSize: 22,
+//                     fontWeight: FontWeight.bold,
+//                     color: Colors.white),
+//               ),
+//               const SizedBox(
+//                 height: 10,
+//               ),
+//               /*Text(
+//                 "We need to register your phone without getting started!",
+//                 style: TextStyle(
+//                   fontSize: 16,
+//                 ),
+//                 textAlign: TextAlign.center,
+//               ),*/
+//               const SizedBox(
+//                 height: 30,
+//               ),
+//               Directionality(
+//                 textDirection: ui.TextDirection.ltr,
+//                 child: Pinput(
+//                   length: 6,
+//                   // defaultPinTheme: defaultPinTheme,
+//                   // focusedPinTheme: focusedPinTheme,
+//                   // submittedPinTheme: submittedPinTheme,
+//                   onChanged: (value) {
+//                     code = value;
+//                   },
+//                   showCursor: true,
+//                   onCompleted: (pin) => print(pin),
+//                 ),
+//               ),
+//               const SizedBox(
+//                 height: 20,
+//               ),
+//               SizedBox(
+//                 width: double.infinity,
+//                 height: 45,
+//                 child: ElevatedButton(
+//                     style: ElevatedButton.styleFrom(
+//                         primary: const Color.fromARGB(255, 30, 99, 196),
+//                         shape: RoundedRectangleBorder(
+//                             borderRadius: BorderRadius.circular(10))),
+//                     onPressed: () async {
+//                       try {
+//                         PhoneAuthCredential credential =
+//                             PhoneAuthProvider.credential(
+//                                 verificationId: SignUpView.verify,
+//                                 smsCode: code);
 
-                        // Sign the user in (or link) with the credential
-                        await auth.signInWithCredential(credential);
-                        Navigator.pushNamed(
-                            context, RoutesName.physicalactivity);
-                      } catch (e) {
-                        print('wrong otp');
-                      }
-                    },
-                    child: const Text("التحقق من رقم الهاتف")),
-              ),
-              /*Row(
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          'phone',
-                          (route) => false,
-                        );
-                      },
-                      child: Text(
-                        "Edit Phone Number ?",
-                        style: TextStyle(color: Colors.black),
-                      ))
-                ],
-              )*/
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+//                         // Sign the user in (or link) with the credential
+//                         await auth.signInWithCredential(credential);
+//                         Navigator.pushNamed(
+//                             context, RoutesName.physicalactivity);
+//                       } catch (e) {
+//                         print('wrong otp');
+//                       }
+//                     },
+//                     child: const Text("التحقق من رقم الهاتف")),
+//               ),
+//               /*Row(
+//                 children: [
+//                   TextButton(
+//                       onPressed: () {
+//                         Navigator.pushNamedAndRemoveUntil(
+//                           context,
+//                           'phone',
+//                           (route) => false,
+//                         );
+//                       },
+//                       child: Text(
+//                         "Edit Phone Number ?",
+//                         style: TextStyle(color: Colors.black),
+//                       ))
+//                 ],
+//               )*/
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
