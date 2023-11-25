@@ -43,15 +43,6 @@ class AuthViewModel with ChangeNotifier {
     final jsonBody = jsonEncode(data);
 
     try {
-      // showDialog(
-      //   context: context,
-      //   barrierDismissible: false, // Prevent user from closing the dialog
-      //   builder: (BuildContext context) {
-      //     return Center(
-      //       child: CircularProgressIndicator(),
-      //     );
-      //   },
-      // );
       final response = await http.post(
         url,
         headers: headers,
@@ -73,24 +64,17 @@ class AuthViewModel with ChangeNotifier {
             context,
             MaterialPageRoute(builder: (context) => BottomNavBar()),
             (Route<dynamic> route) => false);
-      } else if (response.statusCode == 401) {
-        // Unauthorized - Invalid credentials
-        _showErrorDialog(context, 'خطأ في بيانات الدخول');
-      } else if (response.statusCode == 404) {
-        // Not Found - User not found
-        _showErrorDialog(context, 'خطأ في بيانات الدخول');
-      } else if (response.statusCode == 400) {
-        _showErrorDialog(context, 'خطأ في بيانات الدخول');
-      } else if (response.statusCode == 500) {
-        _showErrorDialog(context, 'خطأ في الشبكة ');
       } else {
         // Handle other error scenarios
-        _showErrorDialog(context, 'حدث خطأ ما الرجاء المحاولة مرة اخرى');
+        //print(jsonDecode(response.body)["message"].toString());
+
+        _showErrorDialog(
+            context, jsonDecode(response.body)["message"].toString());
       }
     } catch (e) {
       // Handle any exceptions
       print('Error making POST request: $e');
-      _showErrorDialog(context, 'حدث خطأ ما الرجاء المحاولة مرة اخرى');
+      _showErrorDialog(context, e.toString());
     }
   }
 
@@ -164,13 +148,16 @@ class AuthViewModel with ChangeNotifier {
             );
           },
         );
-      } else if (response.statusCode == 500) {
-        _showErrorDialog(context, 'خطأ في الشبكة ');
-      } else if (response.statusCode == 422) {
-        _showErrorDialog(context, 'المستخدم موجود مسبقا');
-      } else {
+      }
+      // else if (response.statusCode == 500) {
+      //   _showErrorDialog(context, 'خطأ في الشبكة ');
+      // } else if (response.statusCode == 422) {
+      //   _showErrorDialog(context, 'المستخدم موجود مسبقا');
+      // }
+      else {
         // Handle other error scenarios
-        _showErrorDialog(context, 'حدث خطأ ما الرجاء المحاولة مرة اخرى');
+        _showErrorDialog(
+            context, jsonDecode(response.body)["message"].toString());
       }
     } catch (e) {
       // Handle any exceptions

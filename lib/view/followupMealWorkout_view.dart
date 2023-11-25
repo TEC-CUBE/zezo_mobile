@@ -25,6 +25,7 @@ class _FollowupMealWorkoutViewState extends State<FollowupMealWorkoutView>
   // List<Workout> workouts = [];
   int _currentIndex = 0;
   late TabController _tabController;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -46,6 +47,7 @@ class _FollowupMealWorkoutViewState extends State<FollowupMealWorkoutView>
       final workoutData = await fetchgroubWorkoutData(widget.followup);
       setState(() {
         detailsData = workoutData;
+        isLoading = false;
       });
     } catch (e) {
       print("Error fetching workout data: $e");
@@ -58,6 +60,7 @@ class _FollowupMealWorkoutViewState extends State<FollowupMealWorkoutView>
 
     setState(() {
       mealGroups = groups;
+      isLoading = false;
     });
   }
 
@@ -84,85 +87,92 @@ class _FollowupMealWorkoutViewState extends State<FollowupMealWorkoutView>
             },
           ),
         ),
-        body: TabBarView(
-          controller: _tabController, // Use the TabController here
-          children: <Widget>[
-            mealGroups.isEmpty
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ListView.builder(
-                    itemCount: mealGroups.length,
-                    itemBuilder: (context, index) {
-                      final mealGroup = mealGroups[index];
-
-                      return GestureDetector(
-                        onTap: () {
-                          //Navigate to MealDetailsPage and pass relevant data
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => GroupMealDetails(
-                                followupId: widget.followup,
-                                day: mealGroup.day,
-                              ),
-                            ),
-                          );
-                        },
-                        child: ListTile(
-                          title: Text("يوم ${mealGroup.day}",
+        body: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : TabBarView(
+                controller: _tabController, // Use the TabController here
+                children: <Widget>[
+                  mealGroups.isEmpty
+                      ? Center(
+                          child: Text("لم نقم بإضافة أي وجبة بعد",
                               style: TextStyle(
-                                  fontSize: 20.sp,
-                                  color: const Color.fromARGB(
-                                      255, 255, 250, 250))),
-                        ),
-                      );
-                    },
-                  ),
-            detailsData.isEmpty
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ListView.builder(
-                    itemCount: detailsData.length,
-                    itemBuilder: (context, index) {
-                      final groupworkout = detailsData[index];
-                      return ListTile(
-                        title: Text(groupworkout.id.toString(),
-                            style: TextStyle(
-                                fontSize: 20.sp,
-                                color:
-                                    const Color.fromARGB(255, 255, 250, 250))),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(groupworkout.action,
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: const Color.fromARGB(
-                                        255, 255, 250, 250))),
-                            SizedBox(height: 10.h),
-                            Divider(
-                                color: Color.fromARGB(255, 30, 30, 43),
-                                height: 1.h,
-                                thickness: 1)
-                          ],
-                        ),
-                        trailing: const Icon(Icons.arrow_forward_ios,
-                            size: 16, color: Color.fromARGB(255, 6, 159, 182)),
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => GroupWorkoutView( 
-                                groupworkout.id,
+                                  color: Colors.white, fontSize: 20.sp)),
+                        )
+                      : ListView.builder(
+                          itemCount: mealGroups.length,
+                          itemBuilder: (context, index) {
+                            final mealGroup = mealGroups[index];
+
+                            return GestureDetector(
+                              onTap: () {
+                                //Navigate to MealDetailsPage and pass relevant data
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => GroupMealDetails(
+                                      followupId: widget.followup,
+                                      day: mealGroup.day,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: ListTile(
+                                title: Text("يوم ${mealGroup.day}",
+                                    style: TextStyle(
+                                        fontSize: 20.sp,
+                                        color: const Color.fromARGB(
+                                            255, 255, 250, 250))),
                               ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-          ],
-        ),
+                            );
+                          },
+                        ),
+                  detailsData.isEmpty
+                      ? Center(
+                          child: Text("لم نقم بإضافة أي  تمرين بعد",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 20.sp)),
+                        )
+                      : ListView.builder(
+                          itemCount: detailsData.length,
+                          itemBuilder: (context, index) {
+                            final groupworkout = detailsData[index];
+                            return ListTile(
+                              title: Text(groupworkout.day.toString(),
+                                  style: TextStyle(
+                                      fontSize: 20.sp,
+                                      color: const Color.fromARGB(
+                                          255, 255, 250, 250))),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(groupworkout.action,
+                                      style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: const Color.fromARGB(
+                                              255, 255, 250, 250))),
+                                  SizedBox(height: 10.h),
+                                  Divider(
+                                      color: Color.fromARGB(255, 30, 30, 43),
+                                      height: 1.h,
+                                      thickness: 1)
+                                ],
+                              ),
+                              trailing: const Icon(Icons.arrow_forward_ios,
+                                  size: 16,
+                                  color: Color.fromARGB(255, 6, 159, 182)),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => GroupWorkoutView(
+                                      groupworkout.id,
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                ],
+              ),
       ),
     );
   }

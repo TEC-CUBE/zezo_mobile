@@ -244,7 +244,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else {
                   // Handle the case where 'created_at' is null
                   // You can show a message or perform other actions as needed.
-                  print("'created_at' is null");
+                  // print("'created_at' is null");
+                  Utils.showCenteredSnackBar(
+                      context, "لم يحن وقت المتابعة بعد !", Colors.red);
                 }
               },
               child: Container(

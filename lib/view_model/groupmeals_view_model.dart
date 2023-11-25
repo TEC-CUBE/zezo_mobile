@@ -12,10 +12,9 @@ class MealGroups {
     final url = Uri.parse(
         "http://3.223.187.125:8022/api/v1/trainee/followupmealsgruop/$followupId");
 
-   
-
     try {
       final response = await http.get(url);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);

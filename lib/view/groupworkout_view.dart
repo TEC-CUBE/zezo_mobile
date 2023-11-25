@@ -43,7 +43,7 @@ class Workout {
       quantity: json['quantity'],
       actionAuthor: json['action_author'],
       status: json['status'] == 'true',
-      reps: json['reps'],
+      reps: json['rep'], // Corrected field name
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
       time: json['time'],
@@ -90,6 +90,8 @@ class _GroupWorkoutViewState extends State<GroupWorkoutView> {
       final url = Uri.parse(
           'http://3.223.187.125:8022/api/v1/trainee/followupworkout?filters=group_id:eq:$groupID');
       final response = await http.get(url);
+      // print('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+      // print(response.body);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)['data'];
@@ -162,8 +164,8 @@ class _GroupWorkoutViewState extends State<GroupWorkoutView> {
                 )
               : Center(
                   child: Text('لا يوجد تمارين لهذا اليوم',
-                      style: const TextStyle(
-                          fontSize: 25,
+                      style:  TextStyle(
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
                           color: Color.fromARGB(255, 255, 250, 250)))),
     );

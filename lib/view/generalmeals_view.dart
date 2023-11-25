@@ -196,7 +196,8 @@ class _MealsScreenState extends State<MealsScreen> {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: ListView.builder(
+      body: 
+      ListView.builder(
         controller: _scrollController,
         itemCount: meals.length,
         itemBuilder: (context, index) {

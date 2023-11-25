@@ -121,46 +121,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           selectedItemColor: Color.fromARGB(255, 6, 159, 182),
           onTap: _onTabTapped,
         ),
-        // bottomNavigationBar: Container(
-        //   color: const Color.fromARGB(255, 57, 56, 56),
-        //   child: Padding(
-        //     padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
-        //     child: GNav(
-        //       selectedIndex: _currentIndex,
-        //       onTabChange: _onTabTapped,
-        //       // gap: 2,
-        //       activeColor: Color.fromARGB(255, 0, 106, 255),
-        //       backgroundColor: const Color.fromARGB(255, 57, 56, 56),
-        //       color: Colors.white,
-        //       tabBackgroundColor: Colors.grey.shade800,
-        //       iconSize: 16.w,
-        //       textSize: 8,
-        //       padding: EdgeInsets.fromLTRB(15.w, 10.h, 15.w, 10.h),
-        //       tabs: [
-        //         GButton(
-        //           icon: Icons.home,
-        //           text: 'الصفحة الرئيسية',
-        //         ),
-        //         GButton(
-        //           icon: FontAwesomeIcons.dumbbell,
-        //           text: 'التمارين',
-        //         ),
-        //         GButton(
-        //           icon: Icons.home,
-        //           text: 'التغذية',
-        //         ),
-        //         GButton(
-        //           icon: Icons.home,
-        //           text: 'المتابعة',
-        //         ),
-        //         GButton(
-        //           icon: Icons.home,
-        //           text: 'الصفحة الشخصية',
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // )
+        
       ),
     );
   }

@@ -14,8 +14,6 @@ import 'dart:ui' as ui;
 
 import '../model/signup_model.dart';
 
-
-
 class genderscreen extends StatefulWidget {
   const genderscreen({super.key});
 
@@ -407,7 +405,6 @@ class _physicallyActivrScreenState extends State<physicallyActivrScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -615,7 +612,6 @@ class _setgoalscreenState extends State<setgoalscreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -777,7 +773,6 @@ class _selectbodytypescreenState extends State<selectbodytypescreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -944,8 +939,6 @@ class _selectbodygoalscreenState extends State<selectbodygoalscreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -1126,7 +1119,6 @@ class _motivationCheckboxscreenState extends State<motivationCheckboxscreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -1447,7 +1439,6 @@ class _profiledetailsscreenState extends State<profiledetailsscreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -1718,7 +1709,6 @@ class _targetzonescreenState extends State<targetzonescreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -2075,22 +2065,6 @@ class _SignUpViewState extends State<SignUpView> {
                                   border: InputBorder.none,
                                   prefixText: "+218",
                                 ),
-                                // validator: (value) {
-                                //   if (value == null || value.isEmpty) {
-                                //     ScaffoldMessenger.of(context).showSnackBar(
-                                //       SnackBar(
-                                //         shape: RoundedRectangleBorder(
-                                //             borderRadius:
-                                //                 BorderRadius.circular(10)),
-                                //         backgroundColor: Colors.red,
-                                //         content:
-                                //             Text('الرجاء ادخال رقم الهاتف'),
-                                //         // You can customize the SnackBar appearance and duration here
-                                //       ),
-                                //     );
-                                //   }
-                                //   return null;
-                                // },
                               ),
                             ),
                           ),
@@ -2129,7 +2103,7 @@ class _SignUpViewState extends State<SignUpView> {
                               "weight": widget.selectedWeight,
                               "bodytype": widget.selectedBodyType,
                               "objective": widget.selectedMotivation.join(':'),
-                              "phone": countryController.text,
+                              "phone": "0${countryController.text}",
                               "username": usernameController.text,
                               "password": _passwordController.text,
                               "goal": widget.selectedGoal,

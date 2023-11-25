@@ -13,10 +13,12 @@ class FollowupView extends StatefulWidget {
 
 class _FollowupViewState extends State<FollowupView> {
   List<dynamic> followups = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
+
     fetchData();
   }
 
@@ -36,13 +38,14 @@ class _FollowupViewState extends State<FollowupView> {
             "Authorization": "Bearer $token",
           },
         );
-      
+
         if (response.statusCode == 200) {
           final responseData = json.decode(response.body);
           final followupData = responseData['data'];
 
           setState(() {
             followups = followupData;
+            isLoading = false;
           });
         } else {
           throw Exception("Failed to load followups");
@@ -55,7 +58,6 @@ class _FollowupViewState extends State<FollowupView> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
@@ -64,52 +66,59 @@ class _FollowupViewState extends State<FollowupView> {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: followups.isEmpty
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView.builder(
-              itemCount: followups.length,
-              itemBuilder: (context, index) {
-                final followup = followups[index];
-                int weekNumber = index + 1; // Week numbers start at 1
-                String weekText = "الأسبوع $weekNumber";
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : followups.isNotEmpty
+              ? ListView.builder(
+                  itemCount: followups.length,
+                  itemBuilder: (context, index) {
+                    final followup = followups[index];
+                    int weekNumber = index + 1; // Week numbers start at 1
+                    String weekText = "الأسبوع $weekNumber";
 
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => FollowupMealWorkoutView(
-                            followup['id']), // Pass the followup data
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => FollowupMealWorkoutView(
+                                followup['id']), // Pass the followup data
+                          ),
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          SizedBox(height: 15.h),
+                          ListTile(
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(weekText,
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Color.fromARGB(
+                                            255, 255, 250, 250))),
+                                SizedBox(height: 10.h),
+                                Divider(
+                                    color: Color.fromARGB(255, 30, 30, 43),
+                                    height: 1.h,
+                                    thickness: 1)
+                              ],
+                            ),
+                            trailing: const Icon(Icons.arrow_forward_ios,
+                                size: 16,
+                                color: Color.fromARGB(255, 6, 159, 182)),
+                          ),
+                        ],
                       ),
                     );
                   },
-                  child: Column(
-                    children: [
-                      SizedBox(height: 15.h),
-                      ListTile(
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(weekText,
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(255, 255, 250, 250))),
-                            SizedBox(height: 10.h),
-                            Divider(
-                                color: Color.fromARGB(255, 30, 30, 43),
-                                height: 1.h,
-                                thickness: 1)
-                          ],
-                        ),
-                        trailing: const Icon(Icons.arrow_forward_ios,
-                            size: 16, color: Color.fromARGB(255, 6, 159, 182)),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                )
+              : Center(
+                  child: Text('لا يوجد متابعات',
+                      style: TextStyle(
+                          color: const Color.fromARGB(255, 255, 250, 250),
+                          fontSize: 20.sp)),
+                ),
     );
   }
 }

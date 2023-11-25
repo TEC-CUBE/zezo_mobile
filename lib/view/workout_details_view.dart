@@ -21,6 +21,7 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
   int timeLeft = 0;
   bool isTimerRunning = false;
   Timer? _timer;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -35,6 +36,7 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
 
     try {
       final response = await http.get(url);
+    
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body) as Map<String, dynamic>;
@@ -42,6 +44,7 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
         if (responseData != null) {
           setState(() {
             workoutData = responseData;
+            isLoading = false;
             if (!isTimerRunning) {
               timeLeft = int.parse(workoutData!['time']);
             }
@@ -63,317 +66,356 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
         title: Text('تفاصيل التمرين'),
       ),
-      body: workoutData != null
-          ? ListView(
-              children: <Widget>[
-                if (workoutData!['workouts'] != null)
-                  Padding(
-                    padding: EdgeInsets.only(top: 14.0.h),
-                    child: Column(
-                      children: [
-                        for (var workoutDetail in workoutData!['workouts'])
-                          Column(
-                            children: [
-                              if (workoutDetail['images'] != null)
-                                Column(
-                                  children: [
-                                    CarouselSlider.builder(
-                                      itemCount: workoutDetail['images'].length,
-                                      carouselController: _controller,
-                                      options: CarouselOptions(
-                                        height: 200,
-                                        viewportFraction: 1.0,
-                                        enlargeCenterPage: false,
-                                        enableInfiniteScroll: true,
-                                        autoPlay: true,
-                                        onPageChanged: (index, reason) {
-                                          setState(() {
-                                            currentIndex = index;
-                                          });
-                                        },
-                                      ),
-                                      itemBuilder: (BuildContext context,
-                                          int index, int realIndex) {
-                                        final image =
-                                            workoutDetail['images'][index];
-                                        return Image.network(image['name']);
-                                      },
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 20.0.w, right: 20.0.w),
-                                      child: Divider(
-                                          color:
-                                              Color.fromARGB(255, 30, 30, 43),
-                                          height: 1.h,
-                                          thickness: 2),
-                                    )
-                                  ],
-                                ),
-                              SizedBox(height: 10.h),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: 20.0.w, right: 20.0.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      workoutDetail['name'],
-                                      style: TextStyle(
-                                          color: Color.fromARGB(
-                                              255, 255, 250, 250),
-                                          fontSize: 22.sp,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: 1,
-                                //int.parse(workoutData!['quantity']),
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                      left: 15.0.w,
-                                      right: 15.0.w,
-                                      top: index == 0 ? 10.0.h : 0.0,
-                                      bottom: 10.0.h,
-                                    ),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 30, 30, 43),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                              left: 10.0.w,
-                                              right: 10.0.w,
-                                              top: 8.0.h,
-                                              bottom: 8.0.h,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'الجلسات',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 16.sp,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'الترديدات',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 16.sp,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : workoutData != null
+              ? ListView(
+                  children: <Widget>[
+                    if (workoutData!['workouts'] != null)
+                      Padding(
+                        padding: EdgeInsets.only(top: 14.0.h),
+                        child: Column(
+                          children: [
+                            for (var workoutDetail in workoutData!['workouts'])
+                              Column(
+                                children: [
+                                  if (workoutDetail['images'] != null &&
+                                      workoutDetail['images']
+                                          .isNotEmpty) // Check if images list is not null and not empty
+                                    Column(
+                                      children: [
+                                        CarouselSlider.builder(
+                                          itemCount:
+                                              workoutDetail['images'].length,
+                                          carouselController: _controller,
+                                          options: CarouselOptions(
+                                            height: 200,
+                                            viewportFraction: 1.0,
+                                            enlargeCenterPage: false,
+                                            enableInfiniteScroll: true,
+                                            autoPlay: true,
+                                            onPageChanged: (index, reason) {
+                                              setState(() {
+                                                currentIndex = index;
+                                              });
+                                            },
                                           ),
-                                          Column(
+                                          itemBuilder: (BuildContext context,
+                                              int index, int realIndex) {
+                                            final images =
+                                                workoutDetail['images']
+                                                    as List<dynamic>;
+                                            final image = images.isNotEmpty
+                                                ? images[index]
+                                                : null;
+                                            final imageUrl = image != null
+                                                ? image['name']
+                                                : null;
+                                            return imageUrl != null
+                                                ? Image.network(imageUrl)
+                                                : Container(); // Placeholder widget or empty container
+                                          },
+                                        ),
+                                        SizedBox(height: 10.h),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 20.0.w, right: 20.0.w),
+                                          child: Divider(
+                                              color: Color.fromARGB(
+                                                  255, 30, 30, 43),
+                                              height: 1.h,
+                                              thickness: 2),
+                                        )
+                                      ],
+                                    ),
+                                  SizedBox(height: 10.h),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 20.0.w, right: 20.0.w),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          workoutDetail['name'],
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 255, 250, 250),
+                                              fontSize: 22.sp,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: 1,
+                                    //int.parse(workoutData!['quantity']),
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 15.0.w,
+                                          right: 15.0.w,
+                                          top: index == 0 ? 10.0.h : 0.0,
+                                          bottom: 10.0.h,
+                                        ),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Color.fromARGB(255, 30, 30, 43),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
                                             children: [
-                                              for (int i = 1;
-                                                  i <=
-                                                      int.parse(workoutData![
-                                                          'quantity']);
-                                                  i++)
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    left: 8.0.w,
-                                                    right: 8.0.w,
-                                                    top: 0.0.h,
-                                                    bottom: 15.0.h,
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Container(
-                                                        width: 30.w,
-                                                        height: 30.h,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Color.fromARGB(
-                                                              255, 44, 44, 59),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(30),
-                                                        ),
-                                                        child: Center(
-                                                          child: Text(
-                                                            i.toString(),
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 16.sp,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 20.0.w),
-                                                        child: Text(
-                                                          workoutData!['reps'],
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 16.sp,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
                                               Padding(
                                                 padding: EdgeInsets.only(
-                                                  left: 8.0.w,
-                                                  right: 8.0.w,
-                                                  top: 4.0.h,
+                                                  left: 10.0.w,
+                                                  right: 10.0.w,
+                                                  top: 8.0.h,
+                                                  bottom: 8.0.h,
                                                 ),
-                                                child: Divider(
-                                                  color: Color.fromARGB(
-                                                      255, 44, 44, 59),
-                                                  height: 1.h,
-                                                  thickness: 1,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 8.0.w,
-                                                right: 8.0.w,
-                                                top: 8.0.h),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'الراحة',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 16.sp,
-                                                  ),
-                                                ),
-                                                Stack(
-                                                  alignment: Alignment.center,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
-                                                    Container(
-                                                      height: 40.h,
-                                                      width: 40.w,
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        value: timeLeft == 0
-                                                            ? 1.0
-                                                            : (1 -
-                                                                (timeLeft /
-                                                                    int.parse(
-                                                                        workoutData![
-                                                                            'time']))),
-                                                        valueColor:
-                                                            AlwaysStoppedAnimation<
-                                                                Color>(
-                                                          const Color.fromARGB(
-                                                              255, 6, 159, 182),
-                                                        ),
-                                                        strokeWidth: 5.0,
+                                                    Text(
+                                                      'الجلسات',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16.sp,
                                                       ),
                                                     ),
-                                                    timeLeft == 0
-                                                        ? Icon(
-                                                            Icons.done,
-                                                            color: const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                6,
-                                                                159,
-                                                                182),
-                                                            size: 30.sp,
-                                                          )
-                                                        : Text(
-                                                            timeLeft.toString(),
-                                                            style: TextStyle(
-                                                              color: const Color
-                                                                      .fromARGB(
-                                                                  255,
-                                                                  6,
-                                                                  159,
-                                                                  182),
-                                                              fontSize: 16.sp,
-                                                            ),
-                                                          ),
+                                                    Text(
+                                                      'الترديدات',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16.sp,
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
-                                                isTimerRunning
-                                                    ? Container()
-                                                    : Center(
-                                                        child: Container(
-                                                          width: 50.w,
-                                                          height: 50.h,
-                                                          child: ElevatedButton(
-                                                            style:
-                                                                ElevatedButton
-                                                                    .styleFrom(
-                                                              primary: Color
+                                              ),
+                                              Column(
+                                                children: [
+                                                  for (int i = 1;
+                                                      i <=
+                                                          int.parse(
+                                                              workoutData![
+                                                                  'quantity']);
+                                                      i++)
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                        left: 8.0.w,
+                                                        right: 8.0.w,
+                                                        top: 0.0.h,
+                                                        bottom: 15.0.h,
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Container(
+                                                            width: 30.w,
+                                                            height: 30.h,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color
                                                                   .fromARGB(
                                                                       255,
                                                                       44,
                                                                       44,
                                                                       59),
-                                                              shape:
-                                                                  const CircleBorder(),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30),
                                                             ),
-                                                            onPressed: () {
-                                                              isTimerRunning =
-                                                                  true;
-                                                              _startTimer(
-                                                                  workoutData![
-                                                                      'time']);
-                                                            },
-                                                            child: Text(
-                                                              'بدء',
-                                                              style: TextStyle(
-                                                                fontSize: 12.sp,
+                                                            child: Center(
+                                                              child: Text(
+                                                                i.toString(),
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      16.sp,
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left:
+                                                                        20.0.w),
+                                                            child: Text(
+                                                              workoutData![
+                                                                      'reps'] ??
+                                                                  '3',
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 16.sp,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                              ],
-                                            ),
+                                                    ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                      left: 8.0.w,
+                                                      right: 8.0.w,
+                                                      top: 4.0.h,
+                                                    ),
+                                                    child: Divider(
+                                                      color: Color.fromARGB(
+                                                          255, 44, 44, 59),
+                                                      height: 1.h,
+                                                      thickness: 1,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8.0.w,
+                                                    right: 8.0.w,
+                                                    top: 8.0.h),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      'الراحة',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16.sp,
+                                                      ),
+                                                    ),
+                                                    Stack(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      children: [
+                                                        Container(
+                                                          height: 40.h,
+                                                          width: 40.w,
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            value: timeLeft == 0
+                                                                ? 1.0
+                                                                : (1 -
+                                                                    (timeLeft /
+                                                                        int.parse(
+                                                                            workoutData!['time']))),
+                                                            valueColor:
+                                                                AlwaysStoppedAnimation<
+                                                                    Color>(
+                                                              const Color
+                                                                      .fromARGB(
+                                                                  255,
+                                                                  6,
+                                                                  159,
+                                                                  182),
+                                                            ),
+                                                            strokeWidth: 5.0,
+                                                          ),
+                                                        ),
+                                                        timeLeft == 0
+                                                            ? Icon(
+                                                                Icons.done,
+                                                                color: const Color
+                                                                        .fromARGB(
+                                                                    255,
+                                                                    6,
+                                                                    159,
+                                                                    182),
+                                                                size: 30.sp,
+                                                              )
+                                                            : Text(
+                                                                timeLeft
+                                                                    .toString(),
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: const Color
+                                                                          .fromARGB(
+                                                                      255,
+                                                                      6,
+                                                                      159,
+                                                                      182),
+                                                                  fontSize:
+                                                                      16.sp,
+                                                                ),
+                                                              ),
+                                                      ],
+                                                    ),
+                                                    isTimerRunning
+                                                        ? Container()
+                                                        : Center(
+                                                            child: Container(
+                                                              width: 50.w,
+                                                              height: 50.h,
+                                                              child:
+                                                                  ElevatedButton(
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  primary: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          44,
+                                                                          44,
+                                                                          59),
+                                                                  shape:
+                                                                      const CircleBorder(),
+                                                                ),
+                                                                onPressed: () {
+                                                                  isTimerRunning =
+                                                                      true;
+                                                                  _startTimer(
+                                                                      workoutData![
+                                                                          'time']);
+                                                                },
+                                                                child: Text(
+                                                                  'بدء',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12.sp,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(height: 10.h),
+                                            ],
                                           ),
-                                          SizedBox(height: 10.h),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              )
-                            ],
-                          ),
-                      ],
-                    ),
-                  ),
-              ],
-            )
-          : Center(
-              child: CircularProgressIndicator(),
-            ),
+                                        ),
+                                      );
+                                    },
+                                  )
+                                ],
+                              ),
+                          ],
+                        ),
+                      ),
+                  ],
+                )
+              : Center(
+                  child: Text('لا يوجد تمارين',
+                      style:  TextStyle(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 255, 250, 250)))),
     );
   }
-
-
 
   void _startTimer(String initialTimeString) {
     int initialTime = int.parse(initialTimeString);
