@@ -310,7 +310,9 @@ class _genderscreenState extends State<genderscreen> {
                           );
                         }
                       },
-                      child: Text('التالي', style: TextStyle(fontSize: 20.sp)),
+                      child: Text('التالي',
+                          style:
+                              TextStyle(fontSize: 20.sp, color: Colors.white)),
                     ),
                   ),
                 ),
@@ -508,7 +510,8 @@ class _physicallyActivrScreenState extends State<physicallyActivrScreen> {
                         );
                       }
                     },
-                    child: Text('التالي', style: TextStyle(fontSize: 20.sp)),
+                    child: Text('التالي',
+                        style: TextStyle(fontSize: 20.sp, color: Colors.white)),
                   ),
                 ),
 
@@ -779,6 +782,7 @@ class _selectbodytypescreenState extends State<selectbodytypescreen> {
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
         //title: Text('SingUp'),
         centerTitle: true,
+        
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -801,11 +805,26 @@ class _selectbodytypescreenState extends State<selectbodytypescreen> {
                 SizedBox(
                   height: 40.h,
                 ),
-                _customRadio(1, 'نحيف', 'assets/images/skinn.png'),
+                _customRadio(
+                    1,
+                    'نحيف',
+                    widget.selectedGender == "رجل"
+                        ? 'assets/images/skinn.png'
+                        : 'assets/images/womenskinny.png'),
                 SizedBox(height: 30.h),
-                _customRadio(2, 'عادي', 'assets/images/reguler.png'),
+                _customRadio(
+                    2,
+                    'عادي',
+                    widget.selectedGender == "رجل"
+                        ? 'assets/images/reguler.png'
+                        : 'assets/images/womenregular.png'),
                 SizedBox(height: 30.h),
-                _customRadio(3, 'سمين', 'assets/images/fat.png'),
+                _customRadio(
+                    3,
+                    'سمين',
+                    widget.selectedGender == "رجل"
+                        ? 'assets/images/fat.png'
+                        : 'assets/images/womenfat.png'),
                 SizedBox(height: 50.h),
                 Padding(
                   padding: EdgeInsets.only(bottom: 15.0.h),
@@ -883,16 +902,28 @@ class _selectbodygoalscreenState extends State<selectbodygoalscreen> {
   void _handleRadioValueChanged(int? value) {
     setState(() {
       selectedValue = value;
-      if (value == 1) {
-        selectedBodyGoal = 'تنشيف';
-      } else if (value == 2) {
-        selectedBodyGoal = 'ضخامة صافية';
-      } else if (value == 3) {
-        selectedBodyGoal = 'ضخامة غير صافية';
-      } else if (value == 4) {
-        selectedBodyGoal = 'تحضير بطولة';
+      if (widget.selectedGender == "رجل") {
+        if (value == 1) {
+          selectedBodyGoal = 'تنشيف';
+        } else if (value == 2) {
+          selectedBodyGoal = 'ضخامة صافية';
+        } else if (value == 3) {
+          selectedBodyGoal = 'ضخامة غير صافية';
+        } else if (value == 4) {
+          selectedBodyGoal = 'تحضير بطولة';
+        } else {
+          selectedBodyGoal = null;
+        }
       } else {
-        selectedBodyGoal = null;
+        if (value == 1) {
+          selectedBodyGoal = 'رشيقة';
+        } else if (value == 2) {
+          selectedBodyGoal = 'انقاص الوزن';
+        } else if (value == 3) {
+          selectedBodyGoal = 'زيادة في الوزن';
+        } else {
+          selectedBodyGoal = null;
+        }
       }
     });
   }
@@ -939,87 +970,175 @@ class _selectbodygoalscreenState extends State<selectbodygoalscreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-      appBar: AppBar(
+    if (widget.selectedGender == "رجل") {
+      return Scaffold(
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-        //title: Text('SingUp'),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 30.h,
-              ),
-              Center(
-                child: Text(
-                  'اختر الجسم الذي تريد الوصول إليه',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.bold),
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 15, 15, 24),
+          //title: Text('SingUp'),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 30.h,
                 ),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              _customRadio(1, 'تنشيف', 'assets/images/cut.png'),
-              SizedBox(height: 10.h),
-              _customRadio(2, 'ضخامة صافية', 'assets/images/bulk.png'),
-              SizedBox(height: 10.h),
-              _customRadio(3, 'ضخامة غير صافية', 'assets/images/extrabulk.png'),
-              SizedBox(height: 10.h),
-              _customRadio(4, 'تحضير بطولة', 'assets/images/bodybuilder.png'),
-              SizedBox(height: 20.h),
-              Padding(
-                padding: EdgeInsets.only(bottom: 15.0.h),
-                child: RoundButton(
-                  title: 'التالي',
-                  onPress: () {
-                    // Navigator.pushNamed(context, RoutesName.motivationcheckbox);
+                Center(
+                  child: Text(
+                    'اختر الجسم الذي تريد الوصول إليه',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                _customRadio(1, 'تنشيف', 'assets/images/cut.png'),
+                SizedBox(height: 10.h),
+                _customRadio(2, 'ضخامة صافية', 'assets/images/bulk.png'),
+                SizedBox(height: 10.h),
+                _customRadio(
+                    3, 'ضخامة غير صافية', 'assets/images/extrabulk.png'),
+                SizedBox(height: 10.h),
+                _customRadio(4, 'تحضير بطولة', 'assets/images/bodybuilder.png'),
+                SizedBox(height: 20.h),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 15.0.h),
+                  child: RoundButton(
+                    title: 'التالي',
+                    onPress: () {
+                      // Navigator.pushNamed(context, RoutesName.motivationcheckbox);
 
-                    if (_formKey.currentState?.validate() ?? false) {
-                      // Validate radio buttons
-                      if (selectedValue == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Text(
-                                'يرجى اختيار الجسم الذي تريد الوصول إليه '),
+                      if (_formKey.currentState?.validate() ?? false) {
+                        // Validate radio buttons
+                        if (selectedValue == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text(
+                                  'يرجى اختيار الجسم الذي تريد الوصول إليه '),
+                            ),
+                          );
+                          return;
+                        }
+
+                        // Form is valid, proceed with the navigation
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => motivationCheckboxscreen(
+                              name: widget.name,
+                              selectDate: widget.selectDate,
+                              selectedGender: widget.selectedGender,
+                              selectedphysicallyActive:
+                                  widget.selectedphysicallyActive,
+                              selectedGoal: widget.selectedGoal,
+                              selectedBodyType: widget.selectedBodyType,
+                              selectedBodyGoal: selectedBodyGoal,
+                            ),
                           ),
                         );
-                        return;
                       }
-
-                      // Form is valid, proceed with the navigation
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => motivationCheckboxscreen(
-                            name: widget.name,
-                            selectDate: widget.selectDate,
-                            selectedGender: widget.selectedGender,
-                            selectedphysicallyActive:
-                                widget.selectedphysicallyActive,
-                            selectedGoal: widget.selectedGoal,
-                            selectedBodyType: widget.selectedBodyType,
-                            selectedBodyGoal: selectedBodyGoal,
-                          ),
-                        ),
-                      );
-                    }
-                  },
+                    },
+                  ),
                 ),
-              ),
-              SizedBox(height: 20.h),
-            ],
+                SizedBox(height: 20.h),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Scaffold(
+        backgroundColor: const Color.fromARGB(255, 15, 15, 24),
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 15, 15, 24),
+          //title: Text('SingUp'),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 30.h,
+                ),
+                Center(
+                  child: Text(
+                    'اختر الجسم الذي تريدين الوصول إليه',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                _customRadio(1, 'رشيقة', 'assets/images/womenfit.png'),
+                SizedBox(height: 10.h),
+                _customRadio(
+                    2, 'انقاص الوزن', 'assets/images/womenlosswheigt.png'),
+                SizedBox(height: 10.h),
+                _customRadio(
+                    3, 'زيادة في الوزن', 'assets/images/womenfatweight.png'),
+                SizedBox(height: 10.h),
+
+                // _customRadio(4, 'تحضير بطولة', 'assets/images/bodybuilder.png'),
+                SizedBox(height: 20.h),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 15.0.h),
+                  child: RoundButton(
+                    title: 'التالي',
+                    onPress: () {
+                      // Navigator.pushNamed(context, RoutesName.motivationcheckbox);
+
+                      if (_formKey.currentState?.validate() ?? false) {
+                        // Validate radio buttons
+                        if (selectedValue == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text(
+                                  'يرجى اختيار الجسم الذي تريد الوصول إليه '),
+                            ),
+                          );
+                          return;
+                        }
+
+                        // Form is valid, proceed with the navigation
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => motivationCheckboxscreen(
+                              name: widget.name,
+                              selectDate: widget.selectDate,
+                              selectedGender: widget.selectedGender,
+                              selectedphysicallyActive:
+                                  widget.selectedphysicallyActive,
+                              selectedGoal: widget.selectedGoal,
+                              selectedBodyType: widget.selectedBodyType,
+                              selectedBodyGoal: selectedBodyGoal,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(height: 20.h),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
   }
 }
 

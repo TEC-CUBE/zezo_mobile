@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:CoachZiad/utils/routes/routes_name.dart';
 import 'package:CoachZiad/view_model/user_view_model.dart';
-
 import '../utils/utils.dart';
 import '../view_model/profile_view_model.dart';
 
@@ -53,9 +51,13 @@ class _SplashViewState extends State<SplashView> {
         final errorMessage = response['error'];
         if (await _checkInternet()) {
           if (errorMessage == 'jwt expired') {
-            Navigator.pushNamed(context, RoutesName.login);
+            _navigateToRoute(RoutesName.login);
+          } else if (errorMessage == '400') {
+            // Handle other error cases or show a snackbar
+            _navigateToRoute(RoutesName.login);
+            // print("Error: $errorMessage");
           } else {
-            // _showSnackBar(errorMessage);
+            _navigateToRoute(RoutesName.login);
           }
         } else {
           _showSnackBar('لا يوجد اتصال بالانترنت !');
@@ -69,7 +71,8 @@ class _SplashViewState extends State<SplashView> {
       }
     } catch (error) {
       print("Error: $error");
-      _showSnackBar('لا يوجد اتصال بالانترنت !');
+      _showSnackBar(
+          'An error occurred. Please check your internet connection!');
     }
 
     setState(() {
@@ -84,20 +87,19 @@ class _SplashViewState extends State<SplashView> {
           connectivityResult == ConnectivityResult.wifi;
     } catch (error) {
       print("Error checking internet connection: $error");
-      _showSnackBar('لا يوجد اتصال بالانترنت !');
+      _showSnackBar(
+          'An error occurred. Please check your internet connection!');
       return false;
     }
   }
 
   void _showSnackBar(String message) {
-    Future.microtask(() {
-      Utils.snackBar(message, context);
-    });
+    Utils.snackBar(message, context);
   }
 
   void _navigateToRoute(String routeName) {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      Navigator.pushNamed(context, routeName);
+      Navigator.pushReplacementNamed(context, routeName);
     });
   }
 
@@ -114,18 +116,7 @@ class _SplashViewState extends State<SplashView> {
       body: Center(
         child: _loading
             ? _buildLoadingIndicator()
-            : FutureBuilder<bool>(
-                future: _checkInternet(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return _buildLoadingIndicator();
-                  } else if (snapshot.data == true) {
-                    return _buildLoadingIndicator();
-                  } else {
-                    return _buildLoadingIndicator();
-                  }
-                },
-              ),
+            : _buildLoadingIndicator(), // You can replace this with your main content
       ),
     );
   }
