@@ -125,13 +125,10 @@ class _SplashViewState extends State<SplashView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
-          height: 100.h,
-        ),
         Image(
-          image: AssetImage("assets/images/zezo_logo3.png"),
-          height: 200.h,
-          width: 200.w,
+          image: AssetImage("assets/images/zezologo.png"),
+          height: 330.h,
+          width: 330.w,
         ),
         SizedBox(
           height: 50.h,
