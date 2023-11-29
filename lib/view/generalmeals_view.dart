@@ -192,12 +192,12 @@ class _MealsScreenState extends State<MealsScreen> {
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-        title: Text("الوجبات"),
+        title: Text("الوجبات",
+            style: TextStyle(color: Color.fromARGB(255, 255, 250, 250))),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: 
-      ListView.builder(
+      body: ListView.builder(
         controller: _scrollController,
         itemCount: meals.length,
         itemBuilder: (context, index) {

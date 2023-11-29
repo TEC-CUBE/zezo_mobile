@@ -36,7 +36,6 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
 
     try {
       final response = await http.get(url);
-    
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body) as Map<String, dynamic>;
@@ -64,7 +63,16 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-        title: Text('تفاصيل التمرين'),
+        title: Text('تفاصيل التمرين',
+            style: TextStyle(color: Color.fromARGB(255, 255, 250, 250))),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios,
+              color: Color.fromARGB(255, 255, 250, 250)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        centerTitle: true,
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
@@ -317,11 +325,8 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                                                 AlwaysStoppedAnimation<
                                                                     Color>(
                                                               const Color
-                                                                      .fromARGB(
-                                                                  255,
-                                                                  6,
-                                                                  159,
-                                                                  182),
+                                                                  .fromARGB(255,
+                                                                  6, 159, 182),
                                                             ),
                                                             strokeWidth: 5.0,
                                                           ),
@@ -330,7 +335,7 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                                             ? Icon(
                                                                 Icons.done,
                                                                 color: const Color
-                                                                        .fromARGB(
+                                                                    .fromARGB(
                                                                     255,
                                                                     6,
                                                                     159,
@@ -343,7 +348,7 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                                                 style:
                                                                     TextStyle(
                                                                   color: const Color
-                                                                          .fromARGB(
+                                                                      .fromARGB(
                                                                       255,
                                                                       6,
                                                                       159,
@@ -357,40 +362,39 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                                     isTimerRunning
                                                         ? Container()
                                                         : Center(
-                                                            child: Container(
-                                                              width: 50.w,
-                                                              height: 50.h,
-                                                              child:
-                                                                  ElevatedButton(
-                                                                style: ElevatedButton
+                                                            child:
+                                                                ElevatedButton(
+                                                            style:
+                                                                ElevatedButton
                                                                     .styleFrom(
-                                                                  primary: Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          44,
-                                                                          44,
-                                                                          59),
-                                                                  shape:
-                                                                      const CircleBorder(),
-                                                                ),
-                                                                onPressed: () {
-                                                                  isTimerRunning =
-                                                                      true;
-                                                                  _startTimer(
-                                                                      workoutData![
-                                                                          'time']);
-                                                                },
-                                                                child: Text(
-                                                                  'بدء',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        12.sp,
-                                                                  ),
-                                                                ),
-                                                              ),
+                                                              primary: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      44,
+                                                                      44,
+                                                                      59),
+                                                              shape:
+                                                                  const CircleBorder(),
                                                             ),
-                                                          ),
+                                                            onPressed: () {
+                                                              isTimerRunning =
+                                                                  true;
+                                                              _startTimer(
+                                                                  workoutData![
+                                                                      'time']);
+                                                            },
+                                                            child: Text(
+                                                              'بدء',
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      12.sp,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          )),
                                                   ],
                                                 ),
                                               ),
@@ -410,7 +414,7 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                 )
               : Center(
                   child: Text('لا يوجد تمارين',
-                      style:  TextStyle(
+                      style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
                           color: Color.fromARGB(255, 255, 250, 250)))),
@@ -427,7 +431,10 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
         });
       } else {
         timer.cancel();
-        isTimerRunning = false;
+        setState(() {
+          isTimerRunning = false;
+        });
+        //isTimerRunning = false;
       }
     });
   }

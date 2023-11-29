@@ -38,7 +38,9 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-        title: const Text('الملف الشخصي'),
+        title: const Text('الملف الشخصي',
+            style: TextStyle(color: Color.fromARGB(255, 255, 250, 250))),
+        centerTitle: true,
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(

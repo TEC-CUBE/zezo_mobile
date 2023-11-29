@@ -62,7 +62,8 @@ class _FollowupViewState extends State<FollowupView> {
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-        title: const Text("المتابعة"),
+        title: const Text("المتابعة",
+            style: TextStyle(color: Color.fromARGB(255, 255, 250, 250))),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),

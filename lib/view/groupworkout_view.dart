@@ -118,7 +118,16 @@ class _GroupWorkoutViewState extends State<GroupWorkoutView> {
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-        title: Text('التمارين'),
+        title: Text('التمارين',
+            style: TextStyle(color: Color.fromARGB(255, 255, 250, 250))),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios,
+              color: Color.fromARGB(255, 255, 250, 250)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        centerTitle: true,
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
@@ -164,7 +173,7 @@ class _GroupWorkoutViewState extends State<GroupWorkoutView> {
                 )
               : Center(
                   child: Text('لا يوجد تمارين لهذا اليوم',
-                      style:  TextStyle(
+                      style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
                           color: Color.fromARGB(255, 255, 250, 250)))),

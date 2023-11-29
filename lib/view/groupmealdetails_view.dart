@@ -34,7 +34,6 @@ class _GroupMealDetailsState extends State<GroupMealDetails> {
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-       
         final responseData = json.decode(response.body);
 
         if (responseData.containsKey('data')) {
@@ -242,7 +241,16 @@ class _GroupMealDetailsState extends State<GroupMealDetails> {
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-        title: Text("Meal Details"),
+        title: Text("الوجبات",
+            style: TextStyle(color: Color.fromARGB(255, 255, 250, 250))),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios,
+              color: Color.fromARGB(255, 255, 250, 250)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        centerTitle: true,
       ),
       body: mealDetails.isEmpty
           ? Center(

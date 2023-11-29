@@ -71,13 +71,29 @@ class _FollowupMealWorkoutViewState extends State<FollowupMealWorkoutView>
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-          title: const Text('الوجبات والتمارين'),
+          backgroundColor: Colors.transparent,
+          title: const Text('الوجبات والتمارين',
+              style: TextStyle(color: Color.fromARGB(255, 255, 250, 250))),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios,
+                color: Color.fromARGB(255, 255, 250, 250)),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          centerTitle: true,
           bottom: TabBar(
             controller: _tabController, // Use the TabController here
             indicatorColor: const Color.fromARGB(255, 6, 159, 182),
+            labelStyle: TextStyle(
+                fontSize: 15.sp,
+                color: const Color.fromARGB(255, 255, 250, 250)),
+            unselectedLabelColor: const Color.fromARGB(255, 255, 250, 250),
+            dividerColor: Colors.transparent,
             tabs: <Widget>[
-              const Tab(text: 'الوجبات'),
+              const Tab(
+                text: 'الوجبات',
+              ),
               const Tab(text: 'التمارين'),
             ],
             onTap: (index) {
