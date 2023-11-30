@@ -96,10 +96,10 @@ class _LoginViewState extends State<LoginView> {
                                   EdgeInsets.only(left: 15.0.w, right: 15.0.w),
                               child: TextFormField(
                                 controller: _emailController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(10),
-                                ],
+                                //keyboardType: TextInputType.number,
+                                // inputFormatters: [
+                                //   LengthLimitingTextInputFormatter(10),
+                                // ],
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "رقم الهاتف",
@@ -181,7 +181,7 @@ class _LoginViewState extends State<LoginView> {
                           _emailController.text.isNotEmpty &&
                           _passwordController.text.isNotEmpty) {
                         final requestData = {
-                          'phone': _emailController.text.toString(),
+                          'username': _emailController.text.toString(),
                           'password': _passwordController.text.toString(),
                         };
 
