@@ -1,4 +1,4 @@
-package com.example.zezo
+package com.coachziad.zezo
 
 import io.flutter.embedding.android.FlutterActivity
 
