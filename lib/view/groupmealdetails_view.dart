@@ -1,3 +1,4 @@
+import 'package:CoachZiad/view_model/groupmealsdetails_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:CoachZiad/view/workout_details_view.dart';
@@ -19,39 +20,21 @@ class GroupMealDetails extends StatefulWidget {
 
 class _GroupMealDetailsState extends State<GroupMealDetails> {
   List<MealDetail> mealDetails = []; // Create a list to store meal details
-
+  bool isLoading = true;
   @override
   void initState() {
     super.initState();
-    fetchData();
+    //fetchData();
+    fetchmealdetailsgroup();
   }
 
-  Future<void> fetchData() async {
-    final url = Uri.parse(
-        "http://3.223.187.125:8022/api/v1/trainee/followupmeals?filters=followup_id:eq:${widget.followupId},day:eq:${widget.day}");
-
-    try {
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final responseData = json.decode(response.body);
-
-        if (responseData.containsKey('data')) {
-          final mealDetailsData = responseData['data'] as List<dynamic>;
-          setState(() {
-            mealDetails = mealDetailsData
-                .map((data) => MealDetail.fromJson(data))
-                .toList();
-          });
-        } else {
-          throw Exception("Data field not found in the response");
-        }
-      } else {
-        throw Exception("Failed to load meal details: ${response.statusCode}");
-      }
-    } catch (e) {
-      throw Exception("Failed to fetch meal details: $e");
-    }
+  void fetchmealdetailsgroup() async {
+    final detailsMealsGroub = MealDeatailsGroups(widget.followupId, widget.day);
+    final deatails = await detailsMealsGroub.fetchGroupsMealDeatails();
+    setState(() {
+      mealDetails = deatails;
+      isLoading = false;
+    });
   }
 
   void _showMealDetails(MealDetail meal) {
@@ -286,13 +269,7 @@ class _GroupMealDetailsState extends State<GroupMealDetails> {
                           color: Color.fromARGB(255, 30, 30, 43),
                           height: 1.h,
                           thickness: 1),
-                      // subtitle: Column(
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   children: mealDetail.meals.map((mealItem) {
-                      //     return Text("Meal Name: ${mealItem.name}");
-                      //   }).toList(),
-                      // ),
-
+                     
                       leading: Container(
                         width: 100.w,
                         height: 100.h,
@@ -318,7 +295,6 @@ class _GroupMealDetailsState extends State<GroupMealDetails> {
                           },
                         ),
                       ),
-                      // You can display other meal details here
                     ),
                   ),
                 );

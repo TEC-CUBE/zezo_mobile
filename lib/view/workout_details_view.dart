@@ -1,9 +1,9 @@
 import 'dart:async';
+import 'package:CoachZiad/model/workout_details_model.dart';
+import 'package:CoachZiad/view_model/workout_details_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class WorkoutDetailsPage extends StatefulWidget {
   final int workoutId;
@@ -15,12 +15,10 @@ class WorkoutDetailsPage extends StatefulWidget {
 }
 
 class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
-  Map<String, dynamic>? workoutData;
+  List<WorkoutDetailsModel>? workoutData;
   int currentIndex = 0;
-  final CarouselController _controller = CarouselController();
   int timeLeft = 0;
   bool isTimerRunning = false;
-  Timer? _timer;
   bool isLoading = true;
 
   @override
@@ -30,29 +28,18 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
   }
 
   Future<void> fetchWorkoutDetails() async {
-    final int workoutId = widget.workoutId;
-    final url = Uri.parse(
-        "http://3.223.187.125:8022/api/v1/trainee/followupworkout/$workoutId");
-
     try {
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final responseData = json.decode(response.body) as Map<String, dynamic>;
-
-        if (responseData != null) {
-          setState(() {
-            workoutData = responseData;
-            isLoading = false;
-            if (!isTimerRunning) {
-              timeLeft = int.parse(workoutData!['time']);
-            }
-          });
+      final List<WorkoutDetailsModel> data =
+          await WorkoutDetailsApi.fetchWorkoutDetails(widget.workoutId);
+      setState(() {
+        workoutData = data;
+        isLoading = false;
+        if (!isTimerRunning) {
+          timeLeft = int.parse(workoutData![0].time);
         }
-      } else {
-        throw Exception("Failed to load workout details");
-      }
+      });
     } catch (e) {
+      // Handle error
       print("Error: $e");
     }
   }
@@ -63,11 +50,15 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-        title: Text('تفاصيل التمرين',
-            style: TextStyle(color: Color.fromARGB(255, 255, 250, 250))),
+        title: Text(
+          'تفاصيل التمرين',
+          style: TextStyle(color: Color.fromARGB(255, 255, 250, 250)),
+        ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios,
-              color: Color.fromARGB(255, 255, 250, 250)),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Color.fromARGB(255, 255, 250, 250),
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -76,66 +67,48 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
-          : workoutData != null
+          : workoutData != null && workoutData!.isNotEmpty
               ? ListView(
                   children: <Widget>[
-                    if (workoutData!['workouts'] != null)
+                    if (workoutData![0].workouts.isNotEmpty)
                       Padding(
                         padding: EdgeInsets.only(top: 14.0.h),
                         child: Column(
                           children: [
-                            for (var workoutDetail in workoutData!['workouts'])
+                            for (var workoutDetail in workoutData![0].workouts)
                               Column(
                                 children: [
-                                  if (workoutDetail['images'] != null &&
-                                      workoutDetail['images']
-                                          .isNotEmpty) // Check if images list is not null and not empty
-                                    Column(
-                                      children: [
-                                        CarouselSlider.builder(
-                                          itemCount:
-                                              workoutDetail['images'].length,
-                                          carouselController: _controller,
-                                          options: CarouselOptions(
-                                            height: 200,
-                                            viewportFraction: 1.0,
-                                            enlargeCenterPage: false,
-                                            enableInfiniteScroll: true,
-                                            autoPlay: true,
-                                            onPageChanged: (index, reason) {
-                                              setState(() {
-                                                currentIndex = index;
-                                              });
-                                            },
-                                          ),
-                                          itemBuilder: (BuildContext context,
-                                              int index, int realIndex) {
-                                            final images =
-                                                workoutDetail['images']
-                                                    as List<dynamic>;
-                                            final image = images.isNotEmpty
-                                                ? images[index]
-                                                : null;
-                                            final imageUrl = image != null
-                                                ? image['name']
-                                                : null;
-                                            return imageUrl != null
-                                                ? Image.network(imageUrl)
-                                                : Container(); // Placeholder widget or empty container
-                                          },
-                                        ),
-                                        SizedBox(height: 10.h),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 20.0.w, right: 20.0.w),
-                                          child: Divider(
-                                              color: Color.fromARGB(
-                                                  255, 30, 30, 43),
-                                              height: 1.h,
-                                              thickness: 2),
+                                  workoutDetail.image.isNotEmpty
+                                      ? Column(
+                                          children: [
+                                            Container(
+                                                height: 200.0,
+                                                width: double.infinity,
+                                                child: workoutDetail
+                                                        .image.isNotEmpty
+                                                    ? Image.network(
+                                                        workoutDetail.image,
+                                                        fit: BoxFit.fill,
+                                                      )
+                                                    : Container()),
+                                            SizedBox(height: 10.h),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 20.0.w, right: 20.0.w),
+                                              child: Divider(
+                                                color: Color.fromARGB(
+                                                    255, 30, 30, 43),
+                                                height: 1.h,
+                                                thickness: 2,
+                                              ),
+                                            ),
+                                          ],
                                         )
-                                      ],
-                                    ),
+                                      : Center(
+                                          child: CircularProgressIndicator(
+                                          color:
+                                              Color.fromARGB(255, 6, 159, 182),
+                                        )),
                                   SizedBox(height: 10.h),
                                   Padding(
                                     padding: EdgeInsets.only(
@@ -145,12 +118,13 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                           MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          workoutDetail['name'],
+                                          workoutDetail.name,
                                           style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 255, 250, 250),
-                                              fontSize: 22.sp,
-                                              fontWeight: FontWeight.bold),
+                                            color: Color.fromARGB(
+                                                255, 255, 250, 250),
+                                            fontSize: 22.sp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -159,7 +133,6 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemCount: 1,
-                                    //int.parse(workoutData!['quantity']),
                                     itemBuilder: (context, index) {
                                       return Padding(
                                         padding: EdgeInsets.only(
@@ -210,9 +183,10 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                                 children: [
                                                   for (int i = 1;
                                                       i <=
-                                                          int.parse(
-                                                              workoutData![
-                                                                  'quantity']);
+                                                          int.parse(workoutData![
+                                                                      0]
+                                                                  .quantity ??
+                                                              '0');
                                                       i++)
                                                     Padding(
                                                       padding: EdgeInsets.only(
@@ -261,8 +235,8 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                                                     left:
                                                                         20.0.w),
                                                             child: Text(
-                                                              workoutData![
-                                                                      'reps'] ??
+                                                              workoutData![0]
+                                                                      .rep ??
                                                                   '3',
                                                               style: TextStyle(
                                                                 color: Colors
@@ -320,7 +294,7 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                                                 : (1 -
                                                                     (timeLeft /
                                                                         int.parse(
-                                                                            workoutData!['time']))),
+                                                                            workoutData![0].time))),
                                                             valueColor:
                                                                 AlwaysStoppedAnimation<
                                                                     Color>(
@@ -364,37 +338,41 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                                         : Center(
                                                             child:
                                                                 ElevatedButton(
-                                                            style:
-                                                                ElevatedButton
-                                                                    .styleFrom(
-                                                              primary: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      44,
-                                                                      44,
-                                                                      59),
-                                                              shape:
-                                                                  const CircleBorder(),
-                                                            ),
-                                                            onPressed: () {
-                                                              isTimerRunning =
-                                                                  true;
-                                                              _startTimer(
-                                                                  workoutData![
-                                                                      'time']);
-                                                            },
-                                                            child: Text(
-                                                              'بدء',
-                                                              style: TextStyle(
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                primary: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        44,
+                                                                        44,
+                                                                        59),
+                                                                shape:
+                                                                    const CircleBorder(),
+                                                              ),
+                                                              onPressed: () {
+                                                                isTimerRunning =
+                                                                    true;
+                                                                _startTimer(
+                                                                    workoutData![0]
+                                                                            .time ??
+                                                                        '0');
+                                                              },
+                                                              child: Text(
+                                                                'بدء',
+                                                                style:
+                                                                    TextStyle(
                                                                   fontSize:
                                                                       12.sp,
                                                                   color: Colors
                                                                       .white,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .bold),
+                                                                          .bold,
+                                                                ),
+                                                              ),
                                                             ),
-                                                          )),
+                                                          ),
                                                   ],
                                                 ),
                                               ),
@@ -413,11 +391,15 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                   ],
                 )
               : Center(
-                  child: Text('لا يوجد تمارين',
-                      style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 255, 250, 250)))),
+                  child: Text(
+                    'لا يوجد تمارين',
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 250, 250),
+                    ),
+                  ),
+                ),
     );
   }
 
@@ -434,7 +416,6 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
         setState(() {
           isTimerRunning = false;
         });
-        //isTimerRunning = false;
       }
     });
   }

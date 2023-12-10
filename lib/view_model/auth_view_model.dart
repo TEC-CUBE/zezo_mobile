@@ -35,7 +35,7 @@ class AuthViewModel with ChangeNotifier {
 
   Future<void> loginApi(BuildContext context, dynamic data) async {
     final url = Uri.parse(
-        'http://172.22.4.34:5050/api/login'); // Replace with your API endpoint
+        'http://3.223.187.125:8022/api/v1/login'); // Replace with your API endpoint
     final headers = <String, String>{
       'Content-Type': 'application/json',
     };
@@ -48,6 +48,7 @@ class AuthViewModel with ChangeNotifier {
         headers: headers,
         body: jsonBody,
       );
+      print(response.statusCode);
 
       if (response.statusCode == 200) {
         // Successful response

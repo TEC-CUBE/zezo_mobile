@@ -62,7 +62,7 @@ class _MealsScreenState extends State<MealsScreen> {
                   child: imageUrl != null && imageUrl.isNotEmpty
                       ? Image.network(
                           imageUrl,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                         )
                       : Image.asset(
                           'assets/images/meal.png',
@@ -221,11 +221,11 @@ class _MealsScreenState extends State<MealsScreen> {
                 ),
                 leading: Container(
                   width: 100.w,
-                  height: 100.h,
+                  height: 200.h,
                   child: imageUrl != null && imageUrl.isNotEmpty
                       ? Image.network(
                           imageUrl,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                         )
                       : Image.asset(
                           'assets/images/meal.png',

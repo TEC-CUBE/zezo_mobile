@@ -62,7 +62,6 @@ class _PostFollowupState extends State<PostFollowup> {
         // Handle the success scenario
         showCenteredSnackBar(context, 'تم اضافة المتابعة بنجاح');
         Navigator.pop(context);
-     
       } else {
         // Handle the error response
         print('POST request failed with status ${response.statusCode}');
@@ -126,7 +125,18 @@ class _PostFollowupState extends State<PostFollowup> {
       backgroundColor: const Color.fromARGB(255, 15, 15, 24),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
-        title: Text('اضافة متابعة جديدة'),
+        title: Text(
+          'اضافة متابعة جديدة',
+          style: TextStyle(color: Colors.white),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios,
+              color: Color.fromARGB(255, 255, 250, 250)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -215,7 +225,8 @@ class _PostFollowupState extends State<PostFollowup> {
                           //Color.fromARGB(255, 30, 99, 196),
                           ),
                       onPressed: pickAndUploadImage,
-                      child: Text('اختر صورة'),
+                      child: Text('اختر صورة',
+                          style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -255,7 +266,8 @@ class _PostFollowupState extends State<PostFollowup> {
                         );
                       }
                     },
-                    child: Text('ارسال', style: TextStyle(fontSize: 20.sp)),
+                    child: Text('ارسال',
+                        style: TextStyle(fontSize: 20.sp, color: Colors.white)),
                   ),
                 ),
               ],

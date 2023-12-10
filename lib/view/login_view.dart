@@ -96,30 +96,12 @@ class _LoginViewState extends State<LoginView> {
                                   EdgeInsets.only(left: 15.0.w, right: 15.0.w),
                               child: TextFormField(
                                 controller: _emailController,
-                                //keyboardType: TextInputType.number,
-                                // inputFormatters: [
-                                //   LengthLimitingTextInputFormatter(10),
-                                // ],
+                                
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "رقم الهاتف",
                                 ),
-                                // validator: (value) {
-                                //   if (value == null || value.isEmpty) {
-                                //     ScaffoldMessenger.of(context).showSnackBar(
-                                //       SnackBar(
-                                //         shape: RoundedRectangleBorder(
-                                //             borderRadius:
-                                //                 BorderRadius.circular(10)),
-                                //         backgroundColor: Colors.red,
-                                //         content:
-                                //             Text('الرجاء ادخال رقم الهاتف'),
-                                //         // You can customize the SnackBar appearance and duration here
-                                //       ),
-                                //     );
-                                //   }
-                                //   return null;
-                                // },
+                                
                               ),
                             ),
                           )
@@ -149,22 +131,7 @@ class _LoginViewState extends State<LoginView> {
                                   border: InputBorder.none,
                                   hintText: "كلمة المرور",
                                 ),
-                                // validator: (value) {
-                                //   if (value == null || value.isEmpty) {
-                                //     ScaffoldMessenger.of(context).showSnackBar(
-                                //       SnackBar(
-                                //         shape: RoundedRectangleBorder(
-                                //             borderRadius:
-                                //                 BorderRadius.circular(10)),
-                                //         backgroundColor: Colors.red,
-                                //         content:
-                                //             Text('الرجاء ادخال كلمة المرور'),
-                                //         // You can customize the SnackBar appearance and duration here
-                                //       ),
-                                //     );
-                                //   }
-                                //   return null;
-                                // },
+                              
                               ),
                             ),
                           )
@@ -181,7 +148,7 @@ class _LoginViewState extends State<LoginView> {
                           _emailController.text.isNotEmpty &&
                           _passwordController.text.isNotEmpty) {
                         final requestData = {
-                          'username': _emailController.text.toString(),
+                          'phone': _emailController.text.toString(),
                           'password': _passwordController.text.toString(),
                         };
 

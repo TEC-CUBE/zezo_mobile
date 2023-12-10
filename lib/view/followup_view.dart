@@ -1,3 +1,4 @@
+import 'package:CoachZiad/view_model/followup_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
@@ -18,7 +19,6 @@ class _FollowupViewState extends State<FollowupView> {
   @override
   void initState() {
     super.initState();
-
     fetchData();
   }
 
@@ -28,30 +28,15 @@ class _FollowupViewState extends State<FollowupView> {
     if (userViewModel.token != null) {
       final token = userViewModel.token;
 
-      final url =
-          Uri.parse("http://3.223.187.125:8022/api/v1/trainee/followups");
-
       try {
-        final response = await http.get(
-          url,
-          headers: {
-            "Authorization": "Bearer $token",
-          },
-        );
+        final followupData = await FollowupApi.fetchFollowups(token!);
 
-        if (response.statusCode == 200) {
-          final responseData = json.decode(response.body);
-          final followupData = responseData['data'];
-
-          setState(() {
-            followups = followupData;
-            isLoading = false;
-          });
-        } else {
-          throw Exception("Failed to load followups");
-        }
+        setState(() {
+          followups = followupData;
+          isLoading = false;
+        });
       } catch (e) {
-        print("Error: $e");
+        // Handle error if needed
       }
     }
   }
