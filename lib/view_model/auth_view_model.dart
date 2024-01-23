@@ -58,6 +58,8 @@ class AuthViewModel with ChangeNotifier {
         final userPreference =
             Provider.of<UserViewModel>(context, listen: false);
         userPreference.saveUserToken(token);
+        print('token is');
+        print(token);
         // Navigator.pushNamed(context, RoutesName.bottomnavbar);
         // Introduce a 2-second delay before navigating to BottomNavBar
         //await Future.delayed(Duration(seconds: 2));

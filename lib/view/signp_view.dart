@@ -782,7 +782,6 @@ class _selectbodytypescreenState extends State<selectbodytypescreen> {
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
         //title: Text('SingUp'),
         centerTitle: true,
-        
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -2018,6 +2017,13 @@ class _SignUpViewState extends State<SignUpView> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 15, 15, 24),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 50.0.h),
@@ -2176,13 +2182,13 @@ class _SignUpViewState extends State<SignUpView> {
                                   EdgeInsets.only(left: 15.0.w, right: 15.0.w),
                               child: TextFormField(
                                 inputFormatters: [
-                                  LengthLimitingTextInputFormatter(9),
+                                  LengthLimitingTextInputFormatter(10),
                                 ],
                                 controller: countryController,
                                 keyboardType: TextInputType.number,
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
-                                  prefixText: "+218",
+                                  hintText: "09********",
                                 ),
                               ),
                             ),
@@ -2222,7 +2228,7 @@ class _SignUpViewState extends State<SignUpView> {
                               "weight": widget.selectedWeight,
                               "bodytype": widget.selectedBodyType,
                               "objective": widget.selectedMotivation.join(':'),
-                              "phone": "0${countryController.text}",
+                              "phone": countryController.text,
                               "username": usernameController.text,
                               "password": _passwordController.text,
                               "goal": widget.selectedGoal,
@@ -2246,6 +2252,7 @@ class _SignUpViewState extends State<SignUpView> {
                           "تسجيل",
                           style: TextStyle(
                             fontSize: 18.sp,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
