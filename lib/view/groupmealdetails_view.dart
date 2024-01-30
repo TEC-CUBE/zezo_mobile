@@ -2,11 +2,14 @@ import 'package:CoachZiad/view_model/groupmealsdetails_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:CoachZiad/view/workout_details_view.dart';
+import 'package:provider/provider.dart';
 import '../model/groupmealdetails_model.dart';
 import '../view_model/groupmeals_view_model.dart';
 import '../view_model/groupworkout_view_model.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
+import '../view_model/user_view_model.dart';
 
 class GroupMealDetails extends StatefulWidget {
   final int followupId;
@@ -30,7 +33,9 @@ class _GroupMealDetailsState extends State<GroupMealDetails> {
 
   void fetchmealdetailsgroup() async {
     final detailsMealsGroub = MealDeatailsGroups(widget.followupId, widget.day);
-    final deatails = await detailsMealsGroub.fetchGroupsMealDeatails();
+     final userPreference = Provider.of<UserViewModel>(context, listen: false);
+    final token = await userPreference.getToken(); // Get token from shared preferences
+    final deatails = await detailsMealsGroub.fetchGroupsMealDeatails(token: token);
     setState(() {
       mealDetails = deatails;
       isLoading = false;

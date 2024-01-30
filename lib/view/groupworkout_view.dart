@@ -1,7 +1,9 @@
 // group_workout_view.dart
+import 'package:CoachZiad/view_model/user_view_model.dart';
 import 'package:CoachZiad/view_model/workout_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import '../model/workout_model.dart';
 import 'workout_details_view.dart';
 
@@ -24,8 +26,10 @@ class _GroupWorkoutViewState extends State<GroupWorkoutView> {
   }
 
   Future<void> _fetchWorkouts() async {
+     final userPreference = Provider.of<UserViewModel>(context, listen: false);
+    final token = await userPreference.getToken(); // Get token from shared preferences
     try {
-      final parsedWorkouts = await WorkoutAPI.fetchWorkouts(widget.groupID);
+      final parsedWorkouts = await WorkoutAPI.fetchWorkouts(widget.groupID, token);
       setState(() {
         workouts = parsedWorkouts.cast<Workout>();
         isLoading = false;

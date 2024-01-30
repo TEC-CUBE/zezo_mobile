@@ -1,5 +1,7 @@
+import 'package:CoachZiad/view_model/user_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import '../model/meals_model.dart';
 import '../view_model/meals_view_model.dart';
 
@@ -27,10 +29,21 @@ class _MealsScreenState extends State<MealsScreen> {
   }
 
   Future<void> _fetchMeals() async {
-    final List<Meal> newMeals = await mealsAPI.fetchMeals();
+      final userPreference = Provider.of<UserViewModel>(context, listen: false);
+    final token = await userPreference.getToken(); // Get token from shared preferences
+    if(token!= null){
+      final List<Meal> newMeals = await mealsAPI.fetchMeals(
+         token: token,
+      );
     setState(() {
       meals.addAll(newMeals);
     });
+    }
+    else {
+      // Handle the case where the token is null
+      print('Token is null');
+    }
+    
   }
 
   void _onScroll() {

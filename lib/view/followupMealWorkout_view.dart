@@ -1,7 +1,9 @@
+import 'package:CoachZiad/view_model/user_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:CoachZiad/view/groupworkout_view.dart';
 import 'package:CoachZiad/view/workout_details_view.dart';
+import 'package:provider/provider.dart';
 
 import '../model/groub_meals_model.dart';
 import '../model/group_workout_model.dart';
@@ -26,6 +28,7 @@ class _FollowupMealWorkoutViewState extends State<FollowupMealWorkoutView>
   int _currentIndex = 0;
   late TabController _tabController;
   bool isLoading = true;
+  
 
   @override
   void initState() {
@@ -43,8 +46,10 @@ class _FollowupMealWorkoutViewState extends State<FollowupMealWorkoutView>
   }
 
   Future<void> fetchworkoutgroup() async {
+    final userPreference = Provider.of<UserViewModel>(context, listen: false);
+    final token = await userPreference.getToken(); // Get token from shared preferences
     try {
-      final workoutData = await fetchgroubWorkoutData(widget.followup);
+      final workoutData = await fetchgroubWorkoutData(widget.followup, token: token,);
       setState(() {
         detailsData = workoutData;
         isLoading = false;
@@ -55,8 +60,10 @@ class _FollowupMealWorkoutViewState extends State<FollowupMealWorkoutView>
   }
 
   void fetchmealgroup() async {
+     final userPreference = Provider.of<UserViewModel>(context, listen: false);
+    final token = await userPreference.getToken(); // Get token from shared preferences
     final mealGroupsPage = MealGroups(widget.followup);
-    final groups = await mealGroupsPage.fetchMealGroups();
+    final groups = await mealGroupsPage.fetchMealGroups(token: token,);
 
     setState(() {
       mealGroups = groups;

@@ -3,19 +3,22 @@ import 'dart:convert';
 
 import '../model/group_workout_model.dart';
 
-Future<List<GroupWorkout>> fetchgroubWorkoutData(followup) async {
-
-  final response = await http.get(Uri.parse(
-      'http://3.223.187.125:8022/api/v1/trainee/group?filters=followup_id:eq:$followup'));
+Future<List<GroupWorkout>> fetchgroubWorkoutData(followup,
+    {String? token}) async {
+  final response = await http.get(
+    Uri.parse(
+        'http://3.223.187.125:8022/api/v1/trainee/group?filters=followup_id:eq:$followup'),
+    headers: {
+      'Authorization': 'Bearer $token',
+    },
+  );
   if (response.statusCode == 200) {
     final responseData = json.decode(response.body);
     final data = responseData['data'];
-   
 
     final List<GroupWorkout> workouts = data
         .map<GroupWorkout>((item) => GroupWorkout.fromJson(item))
         .toList(); // Ensure the result is a List<Workout>
-    
 
     return workouts;
   } else {

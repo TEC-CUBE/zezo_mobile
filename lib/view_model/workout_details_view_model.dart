@@ -3,13 +3,18 @@ import 'package:CoachZiad/model/workout_details_model.dart';
 import 'package:http/http.dart' as http;
 
 class WorkoutDetailsApi {
-  static Future<List<WorkoutDetailsModel>> fetchWorkoutDetails(
-      int workoutId) async {
+  static Future<List<WorkoutDetailsModel>> fetchWorkoutDetails(int workoutId,
+      {String? token}) async {
     final url = Uri.parse(
         "http://3.223.187.125:8022/api/v1/trainee/followupworkout/$workoutId");
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
 
       if (response.statusCode == 200) {
         final dynamic responseData = json.decode(response.body);

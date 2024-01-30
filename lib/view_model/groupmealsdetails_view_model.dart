@@ -10,12 +10,17 @@ class MealDeatailsGroups {
 
   MealDeatailsGroups(this.followupId, this.day);
 
-  Future<List<MealDetail>> fetchGroupsMealDeatails() async {
+  Future<List<MealDetail>> fetchGroupsMealDeatails({String? token}) async {
     final url = Uri.parse(
         "http://3.223.187.125:8022/api/v1/trainee/followupmeals?filters=followup_id:eq:${followupId},day:eq:${day}");
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
       //print(response.body);
 
       if (response.statusCode == 200) {

@@ -6,14 +6,19 @@ import '../model/groub_meals_model.dart';
 class MealGroups {
   final followupId; // Update the data type to int
 
-  MealGroups(this.followupId);
+  MealGroups(this.followupId, {String? token});
 
-  Future<List<GroupMeals>> fetchMealGroups() async {
+  Future<List<GroupMeals>> fetchMealGroups({String? token}) async {
     final url = Uri.parse(
         "http://3.223.187.125:8022/api/v1/trainee/followupmealsgruop/$followupId");
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
       //print(response.body);
 
       if (response.statusCode == 200) {

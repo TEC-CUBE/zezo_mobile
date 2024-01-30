@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:CoachZiad/model/workout_details_model.dart';
+import 'package:CoachZiad/view_model/user_view_model.dart';
 import 'package:CoachZiad/view_model/workout_details_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class WorkoutDetailsPage extends StatefulWidget {
   final int workoutId;
@@ -28,9 +30,11 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
   }
 
   Future<void> fetchWorkoutDetails() async {
+     final userPreference = Provider.of<UserViewModel>(context, listen: false);
+    final token = await userPreference.getToken(); // Get token from shared preferences
     try {
       final List<WorkoutDetailsModel> data =
-          await WorkoutDetailsApi.fetchWorkoutDetails(widget.workoutId);
+          await WorkoutDetailsApi.fetchWorkoutDetails(widget.workoutId, token: token);
       setState(() {
         workoutData = data;
         isLoading = false;

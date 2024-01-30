@@ -4,11 +4,16 @@ import 'package:http/http.dart' as http;
 import '../model/workout_model.dart';
 
 class WorkoutAPI {
-  static Future<List<Workout>> fetchWorkouts(int groupID) async {
+  static Future<List<Workout>> fetchWorkouts(int groupID, String? token) async {
     try {
       final url = Uri.parse(
           'http://3.223.187.125:8022/api/v1/trainee/followupworkout?filters=group_id:eq:$groupID');
-      final response = await http.get(url);
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)['data'];
