@@ -1,3 +1,4 @@
+import 'package:CoachZiad/view_model/deleteacount_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -104,6 +105,47 @@ class _ProfilePageState extends State<ProfilePage> {
                     builder: (context) => AboutPage(),
                   ),
                 );
+              },
+            ),
+            ListTile(
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('حذف الحساب',
+                      style: TextStyle(fontSize: 20.sp, color: Colors.red)),
+                  SizedBox(height: 10.h),
+                  Divider(
+                      color: const Color.fromARGB(255, 30, 30, 43),
+                      height: 1.h,
+                      thickness: 1)
+                ],
+              ),
+              trailing: const Icon(Icons.arrow_forward_ios,
+                  size: 16, color: Colors.red),
+              onTap: () async {
+                final userPreference =
+                    Provider.of<UserViewModel>(context, listen: false);
+                final token = await userPreference
+                    .getToken(); // Get token from shared preferences
+                final message = await ApiService.deleteAcount(token);
+                if (message == '200') {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('تم حذف الحساب بنجاح')),
+                  );
+                  userPrefernece.remove().then((value) async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.clear();
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginView()),
+                        (Route<dynamic> route) => false);
+                  });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('لديك متابعات قبل حذف الحساب')),
+                  );
+                }
               },
             ),
             ListTile(
